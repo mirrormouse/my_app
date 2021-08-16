@@ -3,36 +3,49 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.core.paginator import Paginator
+from .forms import TimerCreateForm, SetForm
+from django import forms
+
 
 def index(request):
-    return HttpResponse("Hello")
+    params={
+        'title':'time'
+    }
+    return render(request,'timer/index.html',params)
+
+def timer(request):
+    TimerCreateFormSet=forms.formset_factory(
+        form=TimerCreateForm,
+        extra=1,
+    )
+    params={
+        'SetForm':SetForm(),
+        'TimerForm':TimerCreateFormSet(),
+        'num':"1"
+    }
+    if (request.method=='POST'):
+        number=request.POST['number']
+        num=int(number)
+        if 'plus' in request.POST:
+            params['num']=int(number)+1
+            num=int(number)+1
+        elif 'minus' in request.POST:
+            params['num']=max(int(number)-1,1)
+            num=max(int(number)-1,1)
+        params['TimerForm']=forms.formset_factory(
+            form=TimerCreateForm,
+            extra=int(num),
+        )
+        cp=request.POST.copy()
+        cp['number']=num
+        request.POST=cp
+        params['SetForm']=SetForm(request.POST)
+    return render(request,'timer/timer.html',params)
+    
 
 
 
 
-
-
-
-"""
-class HelloView(TemplateView):
-    def __init__(self):
-        self.params={
-            'title':'Hello',
-            'result':None,
-            'form':HelloForm(),
-        }
-    def get(self,request):
-        return render(request,'hello\index.html',self.params)
-    def post(self,request):
-        ch=request.POST.getlist('choice')
-        result='<ol class="list-group"><b>selected:</b>'
-        for item in ch:
-            result+='<li class="list-group-item">'+item+'</li>'
-        result +='</ol>'
-        self.params['result']=result
-        self.params['form']=HelloForm(request.POST)
-        return render(request,'hello\index.html',self.params)
-"""
 
         
 

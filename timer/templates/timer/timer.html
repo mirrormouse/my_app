@@ -1,0 +1,48 @@
+{% load static %}
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>{{title}}</title>
+        <link rel="stylesheet" 
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        crossorigin="anonymous">
+        <!--
+        <link rel="stylesheet" type="text/css"
+        href="{% static 'hello/css/style.css' %}"/>
+        -->
+
+    </head>
+    <body class="container">
+      <p id="Timer" class="display-4 text-primary">03:00</p>
+      <form action="{% url 'timer' %}" method="post">
+        {% csrf_token %}
+        <table hidden>
+          {{SetForm}}
+        </table>
+        <input type="submit" name="plus" value="+">
+        <input type="submit" name="minus" value="-">
+      </form>
+      <form name="timerset">
+        {% csrf_token %}
+        {% for form in TimerForm%}
+          <div style="display:inline-flex">
+            {{form.as_p}}
+          </div>
+        {% endfor %}
+          
+      </form>
+      <form name="timer">
+        <input type="text" value="3">分
+        <input type="text" value="0">秒<br>
+        <input type="button" value="スタート" onclick="cntStart()"  class="btn btn-primary mt-2">
+        <input type="button" value="ストップ" onclick="cntStop()"  class="btn btn-primary mt-2">
+      </form>
+        <script src='../../static/timer/js/timer.js'>
+          
+        </script>
+      
+
+    </body>
+    
+</html>
