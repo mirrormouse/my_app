@@ -1,0 +1,23 @@
+{% load static %}
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>{{title}}</title>
+        <link rel="stylesheet" 
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        crossorigin="anonymous">
+        <!--
+        <link rel="stylesheet" type="text/css"
+        href="{% static 'hello/css/style.css' %}"/>
+        -->
+    </head>
+    <div id="writehere"></div>
+    <script>
+      var count = 0;
+      var countup = setInterval(function(){
+          count++;
+        writehere.innerHTML=count;
+      } ,1000);
+    </script>
+</html>
