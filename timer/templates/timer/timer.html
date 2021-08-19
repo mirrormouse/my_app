@@ -14,31 +14,35 @@
 
     </head>
     <body class="container">
-      <p id="Timer" class="display-4 text-primary">03:00</p>
-      <form action="{% url 'timer' %}" method="post">
-        {% csrf_token %}
-        <table hidden>
-          {{SetForm}}
-        </table>
-        <input type="submit" name="plus" value="+">
-        <input type="submit" name="minus" value="-">
+      <p id="Timer" class="display-4 text-primary">00:00:00</p>
+      <form name="title">
+        <div style="display:inline-flex">
+          {{TitleForm}}{% csrf_token %}
+        </div>
       </form>
-      <form name="timerset">
-        {% csrf_token %}
-        {% for form in TimerForm%}
+
+      <form name="timerset" method="post"> 
+        <div id="number" hidden>{{num}}</div>
+        {% for form in TimerForm %}
+          <br>
           <div style="display:inline-flex">
-            {{form.as_p}}
+            {{form.id}}
+            {{form}}
+            <td>&nbsp;&nbsp;</td>
+            <input type="submit" formaction="{% url 'timer' minus %}" name="minus_{{forloop.counter}}" value="-">
           </div>
+          <br>
+          <input type="submit" formaction="{% url 'timer' plus %}" name="plus_{{forloop.counter}}" value="+">
         {% endfor %}
+        {{ TimerForm.management_form }}
+        {% csrf_token %}
+          <br>
           
+        <input id="start" type="button" value="スタート" onclick="Start()"  class="btn btn-primary mt-2">
+        <input id="stop" type="button" value="ストップ" onclick="Stop()"  class="btn btn-primary mt-2">
       </form>
-      <form name="timer">
-        <input type="text" value="3">分
-        <input type="text" value="0">秒<br>
-        <input type="button" value="スタート" onclick="cntStart()"  class="btn btn-primary mt-2">
-        <input type="button" value="ストップ" onclick="cntStop()"  class="btn btn-primary mt-2">
-      </form>
-        <script src='../../static/timer/js/timer.js'>
+
+        <script src='../../static/timer/js/new_timer.js'>
           
         </script>
       

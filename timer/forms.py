@@ -10,8 +10,23 @@ class TimerCreateForm(forms.ModelForm):
     class Meta:
         model = Timer
         fields = '__all__'
+        labels={
+            'title':'',
+            'hour':'',
+            'min':'',
+            'sec':'',
+        }
 
 class SetForm(forms.Form):
     number=forms.IntegerField(label='number',\
         widget=forms.NumberInput(attrs={'class':'form-control'}))
 
+class TitleForm(forms.Form):
+    title=forms.CharField(label='',\
+        widget=forms.TextInput(attrs={'class':'form-control'}))
+    hour=forms.CharField(label='',\
+        widget=forms.TextInput(attrs={'class':'form-control'}))
+    min=forms.CharField(label='',\
+        widget=forms.TextInput(attrs={'class':'form-control'}))
+    sec=forms.CharField(label='',\
+        widget=forms.TextInput(attrs={'class':'form-control'}))
