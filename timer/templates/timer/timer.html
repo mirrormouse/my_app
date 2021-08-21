@@ -14,25 +14,61 @@
 
     </head>
     <body class="container">
-      <p id="Timer" class="display-4 text-primary">00:00:00</p>
+      <audio id="start_sound">
+        <source src="../../static/timer/sound/Start.mp3">
+      </audio>
+      <audio id="stop_sound">
+        <source src="../../static/timer/sound/Stop.mp3">
+      </audio>
+      <p id="Timer" class="display-4 text-primary">Timer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00:00:00</p>
+
+      音量<input type="range" id="volume" name="volume" min="0" max="1" step="0.1" value="0">
+      <input id="mute" type="button" value="OFF" style="width:1; padding:3px; font-size:15px;" onclick="Mute()"  name="mute" class="btn btn-outline-secondary mt-2">
+      <details>
+        <summary>音声確認</summary>
+          <input id="stop_sound_test" type="button" style="width:1; padding:3px; font-size:15px;" value="終了音を鳴らす" onclick="Stop_Sound_Test()"  class="btn btn-outline-secondary mt-2">
+          <input id="start_sound_test" type="button" style="width:1; padding:3px; font-size:15px;" value="開始音を鳴らす" onclick="Start_Sound_Test()"  class="btn btn-outline-secondary mt-2">
+      </details>
       <form name="title">
-        <div style="display:inline-flex">
-          {{TitleForm}}{% csrf_token %}
-        </div>
+        <table width="930">
+          <div style="display:inline-flex">
+            <td>&nbsp;&nbsp;&nbsp;</td>{% csrf_token %}
+              <td>{{TitleForm.title}}</td>
+              <td>{{TitleForm.hour}}</td>
+              <td>{{TitleForm.min}}</td>
+              <td>{{TitleForm.sec}}</td>
+              <td>{{TitleForm.sound}}</td>
+          </div>
+        </table>
+
       </form>
 
-      <form name="timerset" method="post"> 
+      <form name="timerset" action="{% url 'timer' num %}" method="post"> 
+        <div hidden>
+          <input type="submit" formaction="{% url 'timer' num %}" class="btn btn-outline-danger mt-2"> 
+        </div>
         <div id="number" hidden>{{num}}</div>
+        <div id="current" hidden>0</div>
+        <div id="sethour" hidden>0</div><div id="setmin" hidden>0</div><div id="setsec" hidden>0</div><div id="settitle" hidden></div>
+        <div id="test" hidden></div>
+        &nbsp;&nbsp;&nbsp;
+        <input type="submit" formaction="{% url 'timer' plus %}" name="plus_0" value="＋" class="btn btn-outline-primary mt-2">
         {% for form in TimerForm %}
           <br>
           <div style="display:inline-flex">
+            <h3 id="point_{{forloop.counter}}">●</h3>
             {{form.id}}
             {{form}}
-            <td>&nbsp;&nbsp;</td>
-            <input type="submit" formaction="{% url 'timer' minus %}" name="minus_{{forloop.counter}}" value="-">
           </div>
-          <br>
-          <input type="submit" formaction="{% url 'timer' plus %}" name="plus_{{forloop.counter}}" value="+">
+            <td>&nbsp;&nbsp;</td>
+            <input type="submit" formaction="{% url 'timer' minus %}" name="minus_{{forloop.counter}}" value="－" class="btn btn-outline-danger mt-2"> 
+          <br>&nbsp;&nbsp;&nbsp;
+          <input type="submit" formaction="{% url 'timer' plus %}" name="plus_{{forloop.counter}}" value="＋" class="btn btn-outline-primary mt-2">
+          
+          {% if forloop.counter != num %}
+          &emsp;&emsp;&emsp;
+          <input type="submit" formaction="{% url 'timer' num %}" name="change_{{forloop.counter}}" value="↑↓" class="btn btn-outline-success mt-2">
+          {% endif %}
         {% endfor %}
         {{ TimerForm.management_form }}
         {% csrf_token %}
@@ -40,9 +76,32 @@
           
         <input id="start" type="button" value="スタート" onclick="Start()"  class="btn btn-primary mt-2">
         <input id="stop" type="button" value="ストップ" onclick="Stop()"  class="btn btn-primary mt-2">
+        <input id="reset" type="button" value="リセット" onclick="Reset()"  class="btn btn-secondary mt-2">
+        <input id="allreset" type="button" value="オールリセット" onclick="allReset()"  class="btn btn-secondary mt-2">
+        <input id="clear" type="button" value="オールクリア" onclick="Clear()"  name="clear" class="btn btn-danger mt-2">
       </form>
+      <h6>
+        <br><br>
+        <details>
+          <summary>使い方ヘルプ</summary>
+          <br>
+          ＋ボタンでタイマーをいくつでも増やすことができます。スタートボタンを押すと一番上のタイマーが起動します。<br>
+          そのタイマーが00:00:00になると、直後に次のタイマーが自動的に起動します。<br>
+          Soundでは、そのタイマーが00:00:00になった時に鳴らす音を指定できます。<br>
+          リセット：&emsp;&emsp;&emsp;現在アクティブなタイマーをセットされている時刻に戻します。再びスタートすると現在アクティブなタイマーが動きます。<br>
+          オールリセット：全てのタイマーをセットされている時刻に戻します。再びスタートすると最初のタイマーが動きます。<br>
+        </details>
+        <br>
 
-        <script src='../../static/timer/js/new_timer.js'>
+
+        <div hidden>
+        <br><br>
+        &emsp;&ensp;リセット：&ensp;&emsp;現在アクティブなタイマーをセットされている時刻に戻します。再びスタートすると現在アクティブなタイマーが動きます。<br>
+        オールリセット：全てのタイマーをセットされている時刻に戻します。再びスタートすると最初のタイマーが動きます。<br>
+      </div>
+      </h6>
+
+        <script src='../../static/timer/js/next_timer.js'>
           
         </script>
       

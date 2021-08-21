@@ -1,5 +1,5 @@
 from django import forms
-from .models import Timer
+from .models import SOUND, Timer
 from django.contrib.auth.models import User
 
 class TimerCreateForm(forms.ModelForm):
@@ -15,6 +15,7 @@ class TimerCreateForm(forms.ModelForm):
             'hour':'',
             'min':'',
             'sec':'',
+            'sound':'',
         }
 
 class SetForm(forms.Form):
@@ -29,4 +30,6 @@ class TitleForm(forms.Form):
     min=forms.CharField(label='',\
         widget=forms.TextInput(attrs={'class':'form-control'}))
     sec=forms.CharField(label='',\
+        widget=forms.TextInput(attrs={'class':'form-control'}))
+    sound=forms.CharField(label='',\
         widget=forms.TextInput(attrs={'class':'form-control'}))
