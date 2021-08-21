@@ -1,0 +1,36 @@
+{% load static %}
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>{{title}}</title>
+        <link rel="stylesheet" 
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        crossorigin="anonymous">
+        <!--
+        <link rel="stylesheet" type="text/css"
+        href="{% static 'hello/css/style.css' %}"/>
+        -->
+
+    </head>
+    <body class="container">
+        {% if form.errors %}
+        <p class="text-danger">ユーザーID、パスワードが一致しません</p>
+        {% endif %}
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <label>ユーザーID</label>
+            {{form.username}}
+            {{form.username.errors}}
+            <label>パスワード</label>
+            {{form.password}}
+            {{form.password.errors}}
+            <input type="submit" value="ログイン" class="btn btn-success mt-2">
+            <input type="button" value="アカウント作成（無料）" onclick="Create_page()" class="btn btn-success mt-2">
+            <br>
+            <input type="button" value="戻る" onclick="Back_page()" class="btn btn-light mt-2">
+        </form>
+        <script src='../../static/timer/js/account.js'>
+        </script>
+    </body>
+</html>

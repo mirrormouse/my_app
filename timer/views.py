@@ -3,15 +3,22 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.core.paginator import Paginator
-from .forms import TimerCreateForm, SetForm,TitleForm
+from .forms import TimerCreateForm, SetForm, TitleForm, UserCreateForm, LoginForm
 from django import forms
 from .models import Timer
+from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate,logout
+from django.views.generic import CreateView
+from django.views import View
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/timer/login')
 def index(request):
     params={
         'title':'time'
     }
     return render(request,'timer/index.html',params)
+
 
 def timer(request,num=1):
     TimerCreateFormSet=forms.modelformset_factory(
@@ -86,7 +93,63 @@ def setfig(num):
     #print(res)
     return res
 
+class Create_account(CreateView):
+    def post(self, request, *args, **kwargs):
+        form = UserCreateForm(data=request.POST)
+        params={
+            'form':form,
+        }
+        if form.is_valid():
+            form.save()
+            #フォームから'username'を読み取る
+            username = form.cleaned_data.get('username')
+            #フォームから'password'を読み取る
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect(to='/timer')
+        return render(request, 'timer/create.html', params)
 
+    def get(self, request, *args, **kwargs):
+        form = UserCreateForm()
+        params={
+            'form':form,
+        }
+        return  render(request, 'timer/create.html', params)
+
+class Account_login(View):
+    def post(self,request,*args,**kwargs):
+        form=LoginForm(data=request.POST)
+        params={
+            'form':form,
+        }
+        if form.is_valid():
+            username=form.cleaned_data.get('username')
+            user=User.objects.get(username=username)
+            login(request,user)
+            return redirect(to='/timer')
+        return render(request,'timer/login.html',params)
+    
+    def get(self,request,*args,**kwargs):
+        form=LoginForm(request.POST)
+        params={
+            'form':form,
+        }
+        return render(request,'timer/login.html',params)
+
+class Account_logout(View):
+    def get(self,request,*args,**kwargs):
+        logout(request)
+        redirect(to='timer/main')
+        form=LoginForm()
+        params={
+            'form':form,
+        }
+        return render(request,'timer/login.html',params)
+
+account_login=Account_login.as_view()
+create_account = Create_account.as_view()
+account_logout=Account_logout.as_view()
 
 
 

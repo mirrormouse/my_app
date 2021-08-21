@@ -11,45 +11,18 @@
         <link rel="stylesheet" type="text/css"
         href="{% static 'hello/css/style.css' %}"/>
         -->
+
     </head>
     <body class="container">
-      <form name="timer">
-        <input type="text" value="3">分
-        <input type="text" value="0">秒<br>
-        <input type="button" value="スタート" onclick="cntStart()" class="btn btn-primary mt-2">
-        <input type="button" value="ストップ" onclick="cntStop()" class="btn btn-primary mt-2">
-        </form>
-      <p id="RealTimer" class="display-4 text-primary"></p>
-      <script>
-        
-        function setfig(num) {
-          // 桁数が1桁だったら先頭に0を加えて2桁に調整する
-          var result;
-          if(num==0){
-             result="00";
-          }else if( num < 10 ) {
-             result = "0" + num; 
-            }
-          else {
-             result = num; 
-            }
-          return result;
-        }
-        var count=0
-        function showTimer() {
-          var now=count;
-          count++;
-          var nowSec  = setfig(now%60);
-          now=Math.floor(now / 60);
-          var nowMin  = setfig(now%60);
-          now=Math.floor(now / 60);
-          var nowHour = setfig(now);
-          var msg = nowHour + ":" + nowMin + ":" + nowSec;
-          document.getElementById("RealTimer").innerHTML = msg;
-        }
-        setInterval('showTimer()',1000);
-      </script>
+      {% if user.id %}
+      <p>こんにちは。{{user.username}}さん</p>
+      <a href="{% url 'logout' %}">ログアウトする</a>
+      {% else %}     
+      <div class="text-center">
+        <a href="{% url 'login' %}" class="btn btn-primary">ログイン</a>
+        <a href="{% url 'create_account' %}" class="btn btn-primary">アカウント作成</a>
+      </div>
+      {% endif %}
 
     </body>
-    
 </html>
