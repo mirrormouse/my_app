@@ -31,9 +31,9 @@
             <h3 id="point_{{forloop.counter}}">●</h3>
             {{form.id}}
             {{form}}
-          </div>
-            <td>&nbsp;&nbsp;</td>
             <input type="submit" formaction="{% url 'index' minus %}" name="minus_{{forloop.counter}}" value="消去" class="btn btn-outline-danger mt-2"> 
+          </div>
+            
           <br>&nbsp;&nbsp;&nbsp;
           <input type="submit" formaction="{% url 'index' plus %}" name="plus_{{forloop.counter}}" value="＋" class="btn btn-outline-primary mt-2">
           
