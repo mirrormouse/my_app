@@ -126,8 +126,8 @@ setfig=function(num) {
   }
   function Stop_Sound_Test(){
     mute_sound.play();
-    start_sound.load();
     stop_sound.load();
+    start_sound.load();
     ResetSound();
     stop_sound.play();
     Confirm_Sound();

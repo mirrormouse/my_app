@@ -45,8 +45,8 @@ setfig=function(num) {
   const cir=10;
   UpdateChange(0);
   TitleUpdate();
-  const start_sound=document.getElementById("start_sound");
   const stop_sound=document.getElementById("stop_sound");
+  const start_sound=document.getElementById("start_sound");
   const mute_sound=document.getElementById("mute_sound");
   Volume();
   
@@ -124,9 +124,9 @@ setfig=function(num) {
   }
   function Stop_Sound_Test(){
     mute_sound.play();
-    start_sound.load();
     stop_sound.load();
-
+    start_sound.load();
+  
     ResetSound();
     stop_sound.play();
     Confirm_Sound();
