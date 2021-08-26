@@ -56,12 +56,14 @@ setfig=function(num) {
     document.forms[1].elements[h+cir*present].addEventListener('change', Change);
     document.forms[1].elements[m+cir*present].addEventListener('change', Change);
     document.forms[1].elements[s+cir*present].addEventListener('change', Change);
+    document.forms[1].elements[so+cir*present].addEventListener('change', Change);
   }
   function RemoveChange(present){
     document.forms[1].elements[ti+cir*present].removeEventListener('change', Change);
     document.forms[1].elements[h+cir*present].removeEventListener('change', Change);
     document.forms[1].elements[m+cir*present].removeEventListener('change', Change);
     document.forms[1].elements[s+cir*present].removeEventListener('change', Change);
+    document.forms[1].elements[so+cir*present].removeEventListener('change', Change);
   }
   
   document.forms[1].elements[ti].addEventListener('change', TitleUpdate);
