@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 
+
+
 class UserCreateForm(UserCreationForm):
     def __int__(self,*args,**kwargs):
         super().__init__(*args, **kwargs)
@@ -23,8 +25,27 @@ class LoginForm(AuthenticationForm):
 class TimerCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field in self.fields.values():
-            field.widget.attrs['class'] = 'form-control'
+        self.fields['title']=forms.CharField(
+            label='',
+            widget=forms.TextInput(attrs={'class':'form-control'})
+        )
+        self.fields['hour']=forms.IntegerField(
+            label='',
+            widget=forms.NumberInput(attrs={'class':'form-control'})
+        )
+        self.fields['min']=forms.IntegerField(
+            label='',
+            widget=forms.NumberInput(attrs={'class':'form-control'})
+        )
+        self.fields['sec']=forms.IntegerField(
+            label='',
+            widget=forms.NumberInput(attrs={'class':'form-control'})
+        )
+        self.fields['sound']=forms.ChoiceField(
+            label='',
+            choices=SOUND,
+            widget=forms.Select(attrs={'class':'form-control'})
+        )
     class Meta:
         model = Timer
         fields = '__all__'

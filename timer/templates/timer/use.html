@@ -16,7 +16,7 @@
         <br><br>
         <details>
           <summary>グラフイメージを表示</summary>
-        <canvas id="PieChart"></canvas>
+        <canvas id="PieChart"  height="300"></canvas>
 　　　　　　　　<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
         </details>
       </div>
@@ -30,7 +30,7 @@
           <input id="start_sound_test" type="button" style="width:1; padding:3px; font-size:15px;" value="開始音を鳴らす" onclick="Start_Sound_Test()"  class="btn btn-outline-secondary mt-2">
       </details>
       <form name="title">
-        <table width="930">
+        <table width="990">
           <div style="display:inline-flex">
             <td>&nbsp;&nbsp;&nbsp;</td>{% csrf_token %}
               <td>{{TitleForm.title}}</td>
@@ -80,7 +80,7 @@
           <summary>使い方ヘルプ</summary>
           <br>
           
-          ＋ボタンでタイマーをいくつでも増やすことができます。スタートボタンを押すと一番上のタイマーが起動します。<br>
+          スタートボタンを押すと一番上のタイマーが起動します。<br>
           そのタイマーが00:00:00になると、直後に次のタイマーが自動的に起動します。<br>
           Soundでは、そのタイマーが00:00:00になった時に鳴らす音を指定できます。<br>
           リセット：&emsp;&emsp;&emsp;現在アクティブなタイマーをセットされている時刻に戻します。再びスタートすると現在アクティブなタイマーが動きます。<br>

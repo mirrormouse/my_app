@@ -2,7 +2,7 @@
 
 {% block content %}
       <form name="title">
-        <table width="930">
+        <table width="990">
           <div style="display:inline-flex">
             <td>&nbsp;&nbsp;&nbsp;</td>{% csrf_token %}
               <td>{{TitleForm.title}}</td>
@@ -67,20 +67,12 @@
         <details>
           <summary>使い方ヘルプ</summary>
           <br>
-          
-          ＋ボタンでタイマーをいくつでも増やすことができます。スタートボタンを押すと一番上のタイマーが起動します。<br>
-          そのタイマーが00:00:00になると、直後に次のタイマーが自動的に起動します。<br>
+          ＋ボタンでタイマーをいくつでも増やすことができます。<br>
           Soundでは、そのタイマーが00:00:00になった時に鳴らす音を指定できます。<br>
-          リセット：&emsp;&emsp;&emsp;現在アクティブなタイマーをセットされている時刻に戻します。再びスタートすると現在アクティブなタイマーが動きます。<br>
-          オールリセット：全てのタイマーをセットされている時刻に戻します。再びスタートすると最初のタイマーが動きます。<br>
         </details>
         <br>
 
-        <div hidden>
-        <br><br>
-        &emsp;&ensp;リセット：&ensp;&emsp;現在アクティブなタイマーをセットされている時刻に戻します。再びスタートすると現在アクティブなタイマーが動きます。<br>
-        オールリセット：全てのタイマーをセットされている時刻に戻します。再びスタートすると最初のタイマーが動きます。<br>
-      </div>
+
       </h6>
       <script src='../../static/timer/js/new_timer.js'>
       </script>

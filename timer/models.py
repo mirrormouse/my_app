@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator
 
 # Create your models here.
-
 SOUND=(
     ("0","終了音"),
     ("1","開始音"),
