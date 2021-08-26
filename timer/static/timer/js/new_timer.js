@@ -39,7 +39,8 @@ setfig=function(num) {
   const h=ti+1;
   const m=h+1;
   const s=m+1;
-  const n=s+2;
+  const so=s+1;
+  const n=so+1;
   const p=n+1;
   const ch=p+1;
   const cir=10;
@@ -279,7 +280,7 @@ setfig=function(num) {
       var idname="point_"+String(cur+1);
       document.getElementById(idname).style.color="black";
       RemoveChange(cur);
-      var flag=Number(document.forms[1].elements[s+cir*cur].value);
+      var flag=Number(document.forms[1].elements[so+cir*cur].value);
       Volume();
       if(flag==0){
         ResetSound();
