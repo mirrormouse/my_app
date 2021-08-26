@@ -45,8 +45,9 @@ setfig=function(num) {
   const cir=10;
   UpdateChange(0);
   TitleUpdate();
-  const start_sound=document.getElementById("start_sound")
-  const stop_sound=document.getElementById("stop_sound")
+  const start_sound=document.getElementById("start_sound");
+  const stop_sound=document.getElementById("stop_sound");
+  const mute_sound=document.getElementById("mute_sound");
   Volume();
   
   function UpdateChange(present){
@@ -114,16 +115,15 @@ setfig=function(num) {
     Volume();
   }
   function ResetSound(){
+    mute_sound.pause();
+    mute_sound.currentTime=0;
     start_sound.pause();
     start_sound.currentTime=0;
     stop_sound.pause();
     stop_sound.currentTime=0;
   }
   function Stop_Sound_Test(){
-    start_sound.muted=true;
-    start_sound.play();
-    ResetSound();
-    start_sound.muted=false;
+    mute_sound.play();
     start_sound.load();
     stop_sound.load();
 
@@ -132,13 +132,10 @@ setfig=function(num) {
     Confirm_Sound();
   }
   function Start_Sound_Test(){
-    start_sound.muted=true;
-    start_sound.play();
-    ResetSound();
-    start_sound.muted=false;
+    mute_sound.play();
     start_sound.load();
     stop_sound.load();
-    
+
     ResetSound();
     start_sound.play();
     Confirm_Sound();
@@ -150,21 +147,11 @@ setfig=function(num) {
     }
   }
   
-  function Initiate(){
-    start_sound.muted=true;
-    start_sound.play();
-    ResetSound();
-    start_sound.muted=false;
-    start_sound.load();
-    stop_sound.load();
-  }
 
   function Start()
   {
-    start_sound.muted=true;
-    start_sound.play();
+    mute_sound.play();
     ResetSound();
-    start_sound.muted=false;
     start_sound.load();
     stop_sound.load();
     document.getElementById("reset").disabled = true;
