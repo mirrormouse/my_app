@@ -413,7 +413,7 @@ setfig=function(num) {
   function Clear_home()
   {
     if(window.confirm('このページに入力している値はすべて削除されます。よろしいですか？')){
-      location.href = "../timer/main";
+      location.href = "../main";
     }
   }  
 
