@@ -279,7 +279,7 @@ setfig=function(num) {
       var idname="point_"+String(cur+1);
       document.getElementById(idname).style.color="black";
       RemoveChange(cur);
-      var flag=Number(document.forms[1].elements[7+cir*cur].value);
+      var flag=Number(document.forms[1].elements[s+cir*cur].value);
       Volume();
       if(flag==0){
         ResetSound();
