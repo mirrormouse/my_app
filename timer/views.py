@@ -72,7 +72,7 @@ def use(request):
         extra=1,
     )
     params={
-        'TitleForm':TitleForm(initial={'title':'Title','hour':'時','min':'分','sec':'秒','sound':'Sound'}),
+        'TitleForm':TitleForm(initial={'title':'タイトル','hour':'時','min':'分','sec':'秒','sound':'アラーム'}),
         'TimerForm':TimerCreateFormSet(
             initial=[{'title':'Timer','hour':'00','min':'00','sec':'00'}],
             ),
@@ -169,7 +169,7 @@ def edit(request,id,num):
     old_data,cnt,timer_title=get_timer(id)
     params={
         'TimerSetForm':TimerSetForm(initial={'title':timer_title}),
-        'TitleForm':TitleForm(initial={'title':'Title','hour':'時','min':'分','sec':'秒','sound':'Sound'}),
+        'TitleForm':TitleForm(initial={'title':'タイトル','hour':'時','min':'分','sec':'秒','sound':'アラーム'}),
         'TimerForm':TimerCreateFormSet(
             initial=[{'title':'Timer','hour':'00','min':'00','sec':'00'}],
             ),
@@ -301,7 +301,7 @@ def index(request,num=1):
         plus=num+1
     params={
         'TimerSetForm':TimerSetForm(),
-        'TitleForm':TitleForm(initial={'title':'Title','hour':'時','min':'分','sec':'秒','sound':'Sound'}),
+        'TitleForm':TitleForm(initial={'title':'タイトル','hour':'時','min':'分','sec':'秒','sound':'アラーム'}),
         'TimerForm':TimerCreateFormSet(queryset=Timer.objects.none(),
             initial=[{'title':'Timer','hour':'00','min':'00','sec':'00'}],
             ),
@@ -406,7 +406,7 @@ def timer(request,num=1):
         extra=1,
     )
     params={
-        'TitleForm':TitleForm(initial={'title':'Title','hour':'時','min':'分','sec':'秒','sound':'Sound'}),
+        'TitleForm':TitleForm(initial={'title':'タイトル','hour':'時','min':'分','sec':'秒','sound':'アラーム'}),
         'TimerForm':TimerCreateFormSet(
             queryset=Timer.objects.none(),
             initial=[{'title':'Timer','hour':'00','min':'00','sec':'00'}],
