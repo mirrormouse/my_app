@@ -1,5 +1,5 @@
 from django import forms
-from .models import SOUND, Timer
+from .models import SOUND, Timer, TimerSet,HomeTimer
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
@@ -35,6 +35,22 @@ class TimerCreateForm(forms.ModelForm):
             'sec':'',
             'sound':'',
         }
+class HomeTimerCreateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+    class Meta:
+        model = HomeTimer
+        fields = '__all__'
+        labels={
+            'title':'',
+            'hour':'',
+            'min':'',
+            'sec':'',
+            'sound':'',
+        }
+
 
 class SetForm(forms.Form):
     number=forms.IntegerField(label='number',\
@@ -51,3 +67,30 @@ class TitleForm(forms.Form):
         widget=forms.TextInput(attrs={'class':'form-control'}))
     sound=forms.CharField(label='',\
         widget=forms.TextInput(attrs={'class':'form-control'}))
+
+    
+
+class TimerSetForm(forms.Form):
+    title=forms.CharField(label='',initial='タイトルを入力してください',\
+        widget=forms.TextInput(attrs={'class':'form-control'}))
+
+class TimerSelectForm(forms.Form):
+    def __init__(self,user,*args,**kwargs):
+        super(TimerSelectForm,self).__init__(*args,**kwargs)
+        self.fields['groups']=forms.ChoiceField(
+            choices=[(item.id,item.title) \
+                for item in TimerSet.objects.filter(user=user)],\
+                widget=forms.Select(attrs={'class':'form-control'}),
+        )
+
+"""
+class TimerSetForm(forms.ModelForm):
+    def __int__(self,*args,**kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['user'].widget.attrs['class']='form-control'
+        self.fields['maintitle'].widget.attrs['class']='form-control'
+        self.fields['set'].widget.attrs['class']='form-control'
+    class Meta:
+        model=TimerSet
+        fields=['user','maintitle','set']
+"""

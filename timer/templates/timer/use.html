@@ -1,28 +1,19 @@
-{% load static %}
-<!doctype html>
-<html lang="ja">
-    <head>
-        <meta charset="utf-8">
-        <title>{{title}}</title>
-        <link rel="stylesheet" 
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        crossorigin="anonymous">
-        <!--
-        <link rel="stylesheet" type="text/css"
-        href="{% static 'hello/css/style.css' %}"/>
-        -->
+{% extends 'timer/layout.html' %}
 
-    </head>
-    <body class="container">
+{% block content %}
       <audio id="start_sound">
         <source src="../../static/timer/sound/Start.mp3">
       </audio>
       <audio id="stop_sound">
         <source src="../../static/timer/sound/Stop.mp3">
       </audio>
-
+      <form action="{% url 'use' %}" method="post">
+        {% csrf_token %}
+        {{TimerSelectForm}}
+        <input type="submit" formaction="{% url 'use' %}" name="choice" value="選択" class="btn btn-primary mt-2"> 
+      </form>
       <div style="text-align: right;float: right;">
-        <br>
+        <br><br>
         <details>
           <summary>グラフイメージを表示</summary>
         <canvas id="PieChart"></canvas>
@@ -52,16 +43,16 @@
 
       </form>
 
-      <form name="timerset" action="{% url 'timer' num %}" method="post"> 
+      <form name="timerset" action="{% url 'index' num %}" method="post"> 
         <div hidden>
-          <input type="submit" formaction="{% url 'timer' num %}" class="btn btn-outline-danger mt-2"> 
+          <input type="submit" formaction="{% url 'index' num %}" class="btn btn-outline-danger mt-2"> 
         </div>
         <div id="number" hidden>{{num}}</div>
         <div id="current" hidden>0</div>
         <div id="sethour" hidden>0</div><div id="setmin" hidden>0</div><div id="setsec" hidden>0</div><div id="settitle" hidden></div>
         <div id="test" hidden></div>
         &nbsp;&nbsp;&nbsp;
-        <input type="submit" formaction="{% url 'timer' plus %}" name="plus_0" value="＋" class="btn btn-outline-primary mt-2">
+    
         {% for form in TimerForm %}
           <br>
           <div style="display:inline-flex">
@@ -69,15 +60,7 @@
             {{form.id}}
             {{form}}
           </div>
-            <td>&nbsp;&nbsp;</td>
-            <input type="submit" formaction="{% url 'timer' minus %}" name="minus_{{forloop.counter}}" value="消去" class="btn btn-outline-danger mt-2"> 
-          <br>&nbsp;&nbsp;&nbsp;
-          <input type="submit" formaction="{% url 'timer' plus %}" name="plus_{{forloop.counter}}" value="＋" class="btn btn-outline-primary mt-2">
-          {% if forloop.counter != num %}
-          &emsp;&emsp;&emsp;
-          <span style="margin-right:20em;"></span>
-          <input type="submit" formaction="{% url 'timer' num %}" name="change_{{forloop.counter}}" value="↑↓" class="btn btn-outline-success mt-2">
-          {% endif %}
+          <br>
         {% endfor %}
         {{ TimerForm.management_form }}
         {% csrf_token %}
@@ -87,13 +70,16 @@
         <input id="stop" type="button" value="ストップ" onclick="Stop()"  class="btn btn-primary mt-2">
         <input id="reset" type="button" value="リセット" onclick="Reset()"  class="btn btn-secondary mt-2">
         <input id="allreset" type="button" value="オールリセット" onclick="allReset()"  class="btn btn-secondary mt-2">
-        <input id="clear" type="button" value="オールクリア" onclick="Clear_home()"  name="clear" class="btn btn-danger mt-2">
+        <input id="clear" type="button" value="オールクリア" onclick="Clear()"  name="clear" class="btn btn-danger mt-2">
+        
+
       </form>
       <h6>
         <br><br>
         <details>
           <summary>使い方ヘルプ</summary>
           <br>
+          
           ＋ボタンでタイマーをいくつでも増やすことができます。スタートボタンを押すと一番上のタイマーが起動します。<br>
           そのタイマーが00:00:00になると、直後に次のタイマーが自動的に起動します。<br>
           Soundでは、そのタイマーが00:00:00になった時に鳴らす音を指定できます。<br>
@@ -101,8 +87,6 @@
           オールリセット：全てのタイマーをセットされている時刻に戻します。再びスタートすると最初のタイマーが動きます。<br>
         </details>
         <br>
-        <input id="login" type="button" value="ログイン・アカウント作成" onclick="Login_home()"  name="login" class="btn btn-outline-success mt-2">
-
 
         <div hidden>
         <br><br>
@@ -110,11 +94,8 @@
         オールリセット：全てのタイマーをセットされている時刻に戻します。再びスタートすると最初のタイマーが動きます。<br>
       </div>
       </h6>
-
-        <script src='../../static/timer/js/new_timer.js'>
-        </script>
-
-
-    </body>
-    
-</html>
+      <script src='../../static/timer/js/use_timer.js'>
+      </script>
+      <script src='../../static/timer/js/use.js'>
+      </script>
+{% endblock %}

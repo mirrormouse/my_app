@@ -1,335 +1,396 @@
 setfig=function(num) {
-    // 桁数が1桁だったら先頭に0を加えて2桁に調整する
-    var result;
-    if(num==0){
-      result="00";
-    }else if( num < 10 && String(num).length==1) {
-      result = "0" + num; 
-    }else {
-      result = num; 
+  // 桁数が1桁だったら先頭に0を加えて2桁に調整する
+  var result;
+  if(num==0){
+    result="00";
+  }else if( num < 10 && String(num).length==1) {
+    result = "0" + num; 
+  }else {
+    result = num; 
+  }
+  return result;
+}
+
+function Repeat(){
+  var blank=document.getElementById("centering").value;
+  var num=60;
+  var sum="";
+  for(let i=0;i<num;i++){
+    sum+=blank;
+  }
+  document.getElementById("centering").innerHTML=sum;
+}
+
+
+function repeatText(){
+
+}
+
+//document.forms[0].elements[1].disabled=true;
+document.forms[0].elements[2].disabled=true;
+document.forms[0].elements[3].disabled=true;
+document.forms[0].elements[4].disabled=true;
+document.forms[0].elements[5].disabled=true;
+
+var timer1; //タイマーを格納する変数（タイマーID）の宣言
+//カウントダウン関数を1000ミリ秒毎に呼び出す関数
+var blank="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+const ti=3;
+const h=ti+1;
+const m=h+1;
+const s=m+1;
+const n=s+2;
+const p=n+1;
+const ch=p+1;
+const cir=10;
+UpdateChange(0);
+TitleUpdate();
+const start_sound=document.getElementById("start_sound")
+const stop_sound=document.getElementById("stop_sound")
+Volume();
+
+function UpdateChange(present){
+  document.forms[1].elements[ti+cir*present].addEventListener('change', Change);
+  document.forms[1].elements[h+cir*present].addEventListener('change', Change);
+  document.forms[1].elements[m+cir*present].addEventListener('change', Change);
+  document.forms[1].elements[s+cir*present].addEventListener('change', Change);
+}
+function RemoveChange(present){
+  document.forms[1].elements[ti+cir*present].removeEventListener('change', Change);
+  document.forms[1].elements[h+cir*present].removeEventListener('change', Change);
+  document.forms[1].elements[m+cir*present].removeEventListener('change', Change);
+  document.forms[1].elements[s+cir*present].removeEventListener('change', Change);
+}
+
+document.forms[1].elements[ti].addEventListener('change', TitleUpdate);
+document.forms[1].elements[h].addEventListener('change', TitleUpdate);
+document.forms[1].elements[m].addEventListener('change', TitleUpdate);
+document.forms[1].elements[s].addEventListener('change', TitleUpdate);
+
+function TitleUpdate(){
+  var sethour=document.forms[1].elements[h].value;
+  var setmin=document.forms[1].elements[m].value;
+  var setsec=document.forms[1].elements[s].value;
+  var settitle=document.forms[1].elements[ti].value;
+  document.getElementById("sethour").innerHTML=sethour;
+  document.getElementById("setmin").innerHTML=setmin;
+  document.getElementById("setsec").innerHTML=setsec;
+  document.getElementById("settitle").innerHTML=settitle;
+  var msg = setfig(sethour)+":"+setfig(setmin) + ":" + setfig(setsec);
+  document.getElementById("Timer").innerHTML = settitle+blank+msg;
+}
+
+var all=document.getElementById("number").innerHTML;
+all=Number(all)
+for(let i=0;i<p+cir*(all-1)+1;i++){
+  document.forms[1].elements[i].addEventListener('keydown', function (event) {
+    if (event.keyCode === 13) {
+      // エンターキーが押されたときの動作
+        // submitボタン以外の場合はイベントをキャンセル
+        return false;
+      
     }
-    return result;
+  });
+}
+
+
+var recent_change=true;
+function Change()
+{
+  recent_change=true;
+}
+
+document.getElementById("volume").addEventListener('change', Volume);
+document.getElementById("volume").addEventListener('input', Volume);
+
+function Volume(){
+  var vol=Number(document.getElementById("volume").value);
+  start_sound.volume=vol;
+  stop_sound.volume=vol;
+}
+
+function Mute(){
+  document.getElementById("volume").value="0";
+  Volume();
+}
+function ResetSound(){
+  start_sound.pause();
+  start_sound.currentTime=0;
+  stop_sound.pause();
+  stop_sound.currentTime=0;
+}
+function Stop_Sound_Test(){
+  ResetSound();
+  stop_sound.play();
+  Confirm_Sound();
+}
+function Start_Sound_Test(){
+  ResetSound();
+  start_sound.play();
+  Confirm_Sound();
+}
+function Confirm_Sound(){
+  var vol=Number(document.getElementById("volume").value);
+  if(vol==0){
+    alert("音声がミュートされています");
+  }
+}
+
+function Start()
+{
+
+  document.getElementById("reset").disabled = true;
+  document.getElementById("allreset").disabled = true;
+  var cur=document.getElementById("current").innerHTML;
+  var qua=document.getElementById("number").innerHTML;
+  Number(qua);
+
+  var flag=0;
+
+  document.getElementById("start").disabled = true;
+  
+  for(let i=0; i < qua ; i++){
+    j=Number(i)
+    //alert("計測時間が00:00:00であるタイマーがあります");
+    var hour=setfig(Math.floor(document.forms[1].elements[h+cir*j].value));
+    var min=setfig(Math.floor(document.forms[1].elements[m+cir*j].value));
+    var sec=setfig(Math.floor(document.forms[1].elements[s+cir*j].value));
+    
+    if(hour=="00"){
+      document.forms[1].elements[h+cir*j].value="00";
+    }
+    if(min=="00"){
+      document.forms[1].elements[m+cir*j].value="00";
+    }
+    if(sec=="00"){
+      document.forms[1].elements[s+cir*j].value="00";
+    }
+    if( (hour=="00") && (min=="00") && (sec=="00") )
+    {
+      flag=1;
+    }
+    var nummin=Number(min);
+    var numsec=Number(sec);
+    if(nummin>59||numsec>59){
+      flag=2;
+    }
+    
+    
   }
   
-  //document.forms[0].elements[1].disabled=true;
-  document.forms[0].elements[2].disabled=true;
-  document.forms[0].elements[3].disabled=true;
-  document.forms[0].elements[4].disabled=true;
-  document.forms[0].elements[5].disabled=true;
-
-  var timer1; //タイマーを格納する変数（タイマーID）の宣言
-  //カウントダウン関数を1000ミリ秒毎に呼び出す関数
-  var blank="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-  const ti=3;
-  const h=ti+1;
-  const m=h+1;
-  const s=m+1;
-  const n=s+2;
-  const p=n+1;
-  const ch=p+1;
-  const cir=10;
-  UpdateChange(0);
-  TitleUpdate();
-  const start_sound=document.getElementById("start_sound")
-  const stop_sound=document.getElementById("stop_sound")
-
-  function UpdateChange(present){
-    document.forms[1].elements[ti+cir*present].addEventListener('change', Change);
-    document.forms[1].elements[h+cir*present].addEventListener('change', Change);
-    document.forms[1].elements[m+cir*present].addEventListener('change', Change);
-    document.forms[1].elements[s+cir*present].addEventListener('change', Change);
+  if(flag==1){
+    alert("計測時間が00:00:00または未設定であるタイマーがあります");
+    document.getElementById("start").disabled=false;
+  }else if(flag==2){
+    alert("Minute、Secondに指定できるのは０以上５９以下の数字のみです");
+    document.getElementById("start").disabled=false;
+  }else{
+    for(let i=0;i<qua;i++){
+      j=Number(i);
+      document.forms[1].elements[n+cir*j].disabled=true;
+      document.forms[1].elements[p+cir*j].disabled=true;
+      document.forms[1].elements[ch+cir*j].disabled=true;
+    }
+    TimerStart(cur,qua);
   }
-  function RemoveChange(present){
-    document.forms[1].elements[ti+cir*present].removeEventListener('change', Change);
-    document.forms[1].elements[h+cir*present].removeEventListener('change', Change);
-    document.forms[1].elements[m+cir*present].removeEventListener('change', Change);
-    document.forms[1].elements[s+cir*present].removeEventListener('change', Change);
-  }
+  
+}
 
-  document.forms[1].elements[ti].addEventListener('change', TitleUpdate);
-  document.forms[1].elements[h].addEventListener('change', TitleUpdate);
-  document.forms[1].elements[m].addEventListener('change', TitleUpdate);
-  document.forms[1].elements[s].addEventListener('change', TitleUpdate);
 
-  function TitleUpdate(){
-    var sethour=document.forms[1].elements[h].value;
-    var setmin=document.forms[1].elements[m].value;
-    var setsec=document.forms[1].elements[s].value;
-    var settitle=document.forms[1].elements[ti].value;
+function TimerStart(i,qua)
+{
+  UpdateChange(Number(i));
+  //Update_Char();
+  var idname="point_"+String(Number(i)+1);
+  document.getElementById(idname).style.color="skyblue";
+  var sethour,setmin,setsec;
+  if(recent_change){
+    sethour=Math.floor(document.forms[1].elements[h+cir*i].value);
+    setmin=Math.floor(document.forms[1].elements[m+cir*i].value);
+    setsec=Math.floor(document.forms[1].elements[s+cir*i].value);
     document.getElementById("sethour").innerHTML=sethour;
     document.getElementById("setmin").innerHTML=setmin;
     document.getElementById("setsec").innerHTML=setsec;
-    document.getElementById("settitle").innerHTML=settitle;
-    var msg = setfig(sethour)+":"+setfig(setmin) + ":" + setfig(setsec);
-    document.getElementById("Timer").innerHTML = settitle+blank+msg;
   }
+  sethour=document.getElementById("sethour").innerHTML;
+  setmin=document.getElementById("setmin").innerHTML;
+  setsec=document.getElementById("setsec").innerHTML;
+  recent_change=false;
+  var msg = setfig(sethour)+":"+setfig(setmin) + ":" + setfig(setsec);
+  var settitle=document.forms[1].elements[ti+cir*i].value;
+  document.getElementById("settitle").innerHTML=settitle;
+  document.getElementById("Timer").innerHTML = settitle+blank+msg;
+  timer1=setInterval(function(){countDown(i,qua)},1000);
+}
 
-  var all=document.getElementById("number").innerHTML;
-  all=Number(all)
-  for(let i=0;i<p+cir*(all-1)+1;i++){
-    document.forms[1].elements[i].addEventListener('keydown', function (event) {
-      if (event.keyCode === 13) {
-        // エンターキーが押されたときの動作
-          // submitボタン以外の場合はイベントをキャンセル
-          return false;
-        
-      }
-    });
-  }
+//タイマー停止関数
+function Stop()
+{
+  document.getElementById("reset").disabled = false;
+  document.getElementById("allreset").disabled = false;
+  document.getElementById("start").disabled=false;
+  clearInterval(timer1);
+}
+
+//カウントダウン関数
+
+function countDown(i,qua)
+{
+  var hour=document.getElementById("sethour").innerHTML;
+  var min=document.getElementById("setmin").innerHTML;
+  var sec=document.getElementById("setsec").innerHTML
+  timeUpdate(i,qua,(Number(hour)*3600)+(Number(min)*60)+Number(sec)-1);
+}
 
 
-  var recent_change=true;
-  function Change()
-  {
-    recent_change=true;
-  }
 
-  document.getElementById("volume").addEventListener('change', Volume);
-  document.getElementById("volume").addEventListener('input', Volume);
-
-  function Volume(){
-    var vol=Number(document.getElementById("volume").value);
-    start_sound.volume=vol;
-    stop_sound.volume=vol;
-  }
-
-  function Mute(){
-    document.getElementById("volume").value="1";
-    ResetSound();
-  }
-  function ResetSound(){
-    start_sound.pause();
-    start_sound.currentTime=0;
-    stop_sound.pause();
-    stop_sound.currentTime=0;
-  }
+//残り時間を書き出す関数
+function timeUpdate(i,qua,num)
+{
+  num=parseInt(num);
   
-  function Start()
-  {
-    
-    document.getElementById("reset").disabled = true;
-    document.getElementById("allreset").disabled = true;
-    var cur=document.getElementById("current").innerHTML;
-    var qua=document.getElementById("number").innerHTML;
-    Number(qua);
-
-    var flag=0;
-
-    document.getElementById("start").disabled = true;
-    
-    for(let i=0; i < qua ; i++){
-      j=Number(i)
-      //alert("計測時間が00:00:00であるタイマーがあります");
-      var hour=setfig(Math.floor(document.forms[1].elements[h+cir*j].value));
-      var min=setfig(Math.floor(document.forms[1].elements[m+cir*j].value));
-      var sec=setfig(Math.floor(document.forms[1].elements[s+cir*j].value));
-      
-      if(hour=="00"){
-        document.forms[1].elements[h+cir*j].value="00";
-      }
-      if(min=="00"){
-        document.forms[1].elements[m+cir*j].value="00";
-      }
-      if(sec=="00"){
-        document.forms[1].elements[s+cir*j].value="00";
-      }
-      if( (hour=="00") && (min=="00") && (sec=="00") )
-      {
-        flag=1;
-      }
-      var nummin=Number(min);
-      var numsec=Number(sec);
-      if(nummin>59||numsec>59){
-        flag=2;
-      }
-      
-      
-    }
-    
-    if(flag==1){
-      alert("計測時間が00:00:00または未設定であるタイマーがあります");
-      document.getElementById("start").disabled=false;
-    }else if(flag==2){
-      alert("Minute、Secondに指定できるのは０以上５９以下の数字のみです");
-      document.getElementById("start").disabled=false;
-    }else{
-      for(let i=0;i<qua;i++){
-        j=Number(i);
-        document.forms[1].elements[n+cir*j].disabled=true;
-        document.forms[1].elements[p+cir*j].disabled=true;
-        document.forms[1].elements[ch+cir*j].disabled=true;
-      }
-      TimerStart(cur,qua);
-    }
-    
-  }
-
-
-  function TimerStart(i,qua)
-  {
-    UpdateChange(Number(i));
-
-    var idname="point_"+String(Number(i)+1);
-    document.getElementById(idname).style.color="skyblue";
-    var sethour,setmin,setsec;
-    if(recent_change){
-      sethour=Math.floor(document.forms[1].elements[h+cir*i].value);
-      setmin=Math.floor(document.forms[1].elements[m+cir*i].value);
-      setsec=Math.floor(document.forms[1].elements[s+cir*i].value);
-      document.getElementById("sethour").innerHTML=sethour;
-      document.getElementById("setmin").innerHTML=setmin;
-      document.getElementById("setsec").innerHTML=setsec;
-    }
-    sethour=document.getElementById("sethour").innerHTML;
-    setmin=document.getElementById("setmin").innerHTML;
-    setsec=document.getElementById("setsec").innerHTML;
-    recent_change=false;
-    var msg = setfig(sethour)+":"+setfig(setmin) + ":" + setfig(setsec);
-    var settitle=document.forms[1].elements[ti+cir*i].value;
-    document.getElementById("settitle").innerHTML=settitle;
-    document.getElementById("Timer").innerHTML = settitle+blank+msg;
-    timer1=setInterval(function(){countDown(i,qua)},1000);
-  }
-  
-  //タイマー停止関数
-  function Stop()
-  {
-    document.getElementById("reset").disabled = false;
-    document.getElementById("allreset").disabled = false;
-    document.getElementById("start").disabled=false;
+  if (num<=0)
+  {      
     clearInterval(timer1);
-  }
-  
-  //カウントダウン関数
-  
-  function countDown(i,qua)
-  {
-    var hour=document.getElementById("sethour").innerHTML;
-    var min=document.getElementById("setmin").innerHTML;
-    var sec=document.getElementById("setsec").innerHTML
-    timeUpdate(i,qua,(Number(hour)*3600)+(Number(min)*60)+Number(sec)-1);
-  }
-
-
-  
-  //残り時間を書き出す関数
-  function timeUpdate(i,qua,num)
-  {
-    num=parseInt(num);
-    
-    if (num<=0)
-    {      
-      clearInterval(timer1);
-      numberReset();
-      var cur=document.getElementById("current").innerHTML;
-      cur=Number(cur);
-      var idname="point_"+String(cur+1);
-      document.getElementById(idname).style.color="black";
-      RemoveChange(cur);
-      var flag=Number(document.forms[1].elements[7+cir*cur].value);
-      document.getElementById("test").innerHTML=flag;
-      Volume();
-      if(flag==0){
-        ResetSound();
-        stop_sound.play();
-      }else if(flag==1){
-        ResetSound();
-        start_sound.play();
-      }
-      
-      if(qua>cur+1){
-        recent_change=true;
-        var next=Number(cur)+1;
-        
-        document.getElementById("current").innerHTML=next;
-        TimerStart(next,qua);
-      }else{
-        document.getElementById("current").innerHTML="0";
-        document.getElementById("start").disabled=false;
-        document.getElementById("reset").disabled = false;
-        document.getElementById("allreset").disabled = false;
-        var settitle=document.getElementById("settitle").innerHTML;
-        var msg = "00:00:00";
-        document.getElementById("Timer").innerHTML = settitle+blank+msg;
-
-        UpdateChange(0);
-        //alert("全てのタイマーが終了しました");
-
-      }
-    }
-    else
-    {
-      var rem=num%3600;
-      var nowhour=setfig(Math.floor(num/3600));
-      var nowmin=setfig(Math.floor(rem/60));
-      var nowsec=setfig(rem % 60);
-      //console.log(util.add(1,1));
-      document.getElementById("sethour").innerHTML=setfig(Math.floor(num/3600));
-      document.getElementById("setmin").innerHTML=setfig(Math.floor(rem/60));
-      document.getElementById("setsec").innerHTML=setfig(rem % 60);
-      var settitle=document.getElementById("settitle").innerHTML;
-      var msg = nowhour+":"+nowmin + ":" + nowsec;
-      document.getElementById("Timer").innerHTML = settitle+blank+msg;
-    }
-  }
-  
-  //フォームを初期状態に戻す（リセット）関数
-  function allReset()
-  {
+    numberReset();
+    //Update_Char();
     var cur=document.getElementById("current").innerHTML;
-    RemoveChange(cur)
     cur=Number(cur);
+    chart.data.datasets[0].data = [1,0];
+    chart.update();
     var idname="point_"+String(cur+1);
     document.getElementById(idname).style.color="black";
-    document.getElementById("current").innerHTML=0;
-    Reset();
-    UpdateChange(0);
-  }
-
-  function Reset()
-  {
-    var cur=document.getElementById("current").innerHTML;
-    if (cur==0){
-      var qua=document.getElementById("number").innerHTML;
-      Number(qua);
-      for(let i=0;i<qua;i++){
-        j=Number(i);
-        document.forms[1].elements[n+cir*j].disabled=false;
-        document.forms[1].elements[p+cir*j].disabled=false;
-        document.forms[1].elements[ch+cir*j].disabled=false;
-      }
+    RemoveChange(cur);
+    var flag=Number(document.forms[1].elements[7+cir*cur].value);
+    Volume();
+    if(flag==0){
+      ResetSound();
+      stop_sound.play();
+    }else if(flag==1){
+      ResetSound();
+      start_sound.play();
     }
-    numberReset();
-  }
+    
+    if(qua>cur+1){
+      recent_change=true;
+      var next=Number(cur)+1;
+      
+      document.getElementById("current").innerHTML=next;
+      TimerStart(next,qua);
+    }else{
+      document.getElementById("current").innerHTML="0";
+      document.getElementById("start").disabled=false;
+      document.getElementById("reset").disabled = false;
+      document.getElementById("allreset").disabled = false;
+      var settitle=document.getElementById("settitle").innerHTML;
+      var msg = "00:00:00";
+      document.getElementById("Timer").innerHTML = settitle+blank+msg;
+      UpdateChange(0);
+      //alert("全てのタイマーが終了しました");
 
-  function numberReset(){
-    
-    recent_change=true;
-    var cur=document.getElementById("current").innerHTML;
-    var sethour=document.forms[1].elements[h+cir*cur].value;
-    var setmin=document.forms[1].elements[m+cir*cur].value;
-    var setsec=document.forms[1].elements[s+cir*cur].value;
-    var settitle=document.forms[1].elements[ti+cir*cur].value;
-    
-    document.getElementById("sethour").innerHTML=sethour;
-    document.getElementById("setmin").innerHTML=setmin;
-    document.getElementById("setsec").innerHTML=setsec;
-    document.getElementById("settitle").innerHTML=settitle;
-    
-    
-    cur=Number(cur);
-    var msg = setfig(sethour)+":"+setfig(setmin) + ":" + setfig(setsec);
+    }
+  }
+  else
+  {
+    var rem=num%3600;
+    var nowhour=setfig(Math.floor(num/3600));
+    var nowmin=setfig(Math.floor(rem/60));
+    var nowsec=setfig(rem % 60);
+    //Update_Char();
+    //console.log(util.add(1,1));
+    document.getElementById("sethour").innerHTML=setfig(Math.floor(num/3600));
+    document.getElementById("setmin").innerHTML=setfig(Math.floor(rem/60));
+    document.getElementById("setsec").innerHTML=setfig(rem % 60);
+    var settitle=document.getElementById("settitle").innerHTML;
+    var msg = nowhour+":"+nowmin + ":" + nowsec;
     document.getElementById("Timer").innerHTML = settitle+blank+msg;
   }
-  
-  function Clear()
-  {
-    if(window.confirm('このページに入力している値はすべて削除されます。よろしいですか？')){
-      location.href = "../main";
-    }else{
+}
 
+//フォームを初期状態に戻す（リセット）関数
+function allReset()
+{
+  var cur=document.getElementById("current").innerHTML;
+  RemoveChange(cur)
+  cur=Number(cur);
+  var idname="point_"+String(cur+1);
+  document.getElementById(idname).style.color="black";
+  document.getElementById("current").innerHTML=0;
+  Reset();
+  UpdateChange(0);
+}
+
+function Reset()
+{
+  var cur=document.getElementById("current").innerHTML;
+  if (cur==0){
+    var qua=document.getElementById("number").innerHTML;
+    Number(qua);
+    for(let i=0;i<qua;i++){
+      j=Number(i);
+      document.forms[1].elements[n+cir*j].disabled=false;
+      document.forms[1].elements[p+cir*j].disabled=false;
+      document.forms[1].elements[ch+cir*j].disabled=false;
     }
+  }
+  numberReset();
+}
 
-  }  
+function numberReset(){
   
-  
+  recent_change=true;
+  var cur=document.getElementById("current").innerHTML;
+  var sethour=document.forms[1].elements[h+cir*cur].value;
+  var setmin=document.forms[1].elements[m+cir*cur].value;
+  var setsec=document.forms[1].elements[s+cir*cur].value;
+  var settitle=document.forms[1].elements[ti+cir*cur].value;
+  document.getElementById("sethour").innerHTML=sethour;
+  document.getElementById("setmin").innerHTML=setmin;
+  document.getElementById("setsec").innerHTML=setsec;
+  document.getElementById("settitle").innerHTML=settitle;
+  cur=Number(cur);
+  var msg = setfig(sethour)+":"+setfig(setmin) + ":" + setfig(setsec);
+  document.getElementById("Timer").innerHTML = settitle+blank+msg;
+}
+Update_Char();
+function Update_Char(){
+  cur=Number(document.getElementById("current").innerHTML);
+  var sethour=Number(document.forms[1].elements[h+cir*cur].value);
+  var setmin=Number(document.forms[1].elements[m+cir*cur].value);
+  var setsec=Number(document.forms[1].elements[s+cir*cur].value);
+  var all=3600*sethour+60*setmin+setsec;
+  document.getElementById("test").innerHTML = "10";
+  //chart.data.datasets[0].data = [all-num,num];
+  //chart.update();
+}
+
+function Login(){
+  location.href = "../timer/";
+}
+
+function Logout(){
+  location.href = "../timer/logout";
+}
+
+
+function Clear()
+{
+  if(window.confirm('このページに入力している値はすべて削除されます。よろしいですか？')){
+    location.href = "../timer/main";
+  }
+}  
+
+var ctx = document.getElementById("PieChart");
+  var chart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      datasets: [{
+          backgroundColor: [
+              "#0000DD",
+              "#DDDDDD",
+          ],
+          data: [0, 1]
+      }]
+    },
+  });
+

@@ -1,16 +1,17 @@
 body{
     color:gray;
-    font-size:16pt;
+    font-size:12pt;
 }
 h1{
     color:red;
     opacity:0.2;
-    font-size:60pt;
+    font-size:10pt;
     margin-top:-20px;
     margin-bottom:0px;
     text-align:right;
 }
 p{
+    font-size:10pt;
     margin:10px;
 }
 a{

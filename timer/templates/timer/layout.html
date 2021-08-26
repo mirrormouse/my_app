@@ -1,0 +1,52 @@
+{% load static %}
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>マルチタイマー</title>
+        <link rel="stylesheet" 
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        crossorigin="anonymous">
+        
+        <link rel="stylesheet" type="text/css"
+        href="{% static 'timer/css/style.css' %}"/>
+        
+    </head>
+    <body class="container">
+      <p>{{user.username}}さんのアカウント</p>
+
+
+      <nav class="navbar navbar-expand navbar-light bg-light">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" id="menu_make">
+          <a class="nav-link" href="{% url 'index' 1 %}">新規作成</a>
+        </li>
+        <li class="nav-item" id="menu_use">
+          <a class="nav-link" href="{% url 'use' %}">使う</a>
+        </li>
+        <li class="nav-item" id="menu_edit">
+          <a class="nav-link" href="{% url 'edit' %}">編集する</a>
+      　</li>
+        <li class="nav-item" id="menu_publish">
+            <a class="nav-link" href="{% url 'index' 1 %}">投稿する</a>
+        </li>
+        <li class="nav-item" id="menu_search">
+            <a class="nav-link" href="{% url 'index' 1 %}">探す</a>
+        </li>
+        <li class="nav-item">
+          <span style="margin-right:10em;"></span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">ログアウト</a>
+        </li>
+      </ul>
+        <span>こんにちは　<span class="h6"></span>{{user.username}}さん</span></span>
+      </nav>
+
+
+      {% block content %}{% endblock %}
+
+
+
+    </body>
+</html>

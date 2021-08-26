@@ -1,0 +1,27 @@
+{% extends 'timer/layout.html' %}
+
+{% block content %}
+<br>
+作成したタイマーのタイトルを入力してください<br><br>
+<div style="display:inline-flex">
+    <form name="main">
+      {{TimerSetForm.title}}
+      <span style="margin-right:10em;"></span>
+      <input type="submit" formaction="{% url 'index_save' num %}" name="save" value="保存" class="btn btn-outline-info mt-2">
+    </form>
+    <form name="timerset" method="post"> 
+        {% for form in TimerForm %}
+            {{form.id}}
+            {{form}}
+        {% endfor %}
+        {{ TimerForm.management_form }}
+        {% csrf_token %}
+          <br>
+             
+        <div style="text-align: right;float: right;">
+          <input type="submit" formaction="{% url 'index_save' num %}" name="save" value="保存" class="btn btn-outline-info mt-2">
+        </div>
+    </form>
+  </div>
+
+{% endblock %}

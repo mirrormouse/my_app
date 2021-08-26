@@ -1,0 +1,89 @@
+{% extends 'timer/layout.html' %}
+
+{% block content %}
+      <form name="title">
+        <table width="930">
+          <div style="display:inline-flex">
+            <td>&nbsp;&nbsp;&nbsp;</td>{% csrf_token %}
+              <td>{{TitleForm.title}}</td>
+              <td>{{TitleForm.hour}}</td>
+              <td>{{TitleForm.min}}</td>
+              <td>{{TitleForm.sec}}</td>
+              <td>{{TitleForm.sound}}</td>
+          </div>
+        </table>
+      </form>
+
+      <form name="timerset" action="{% url 'index' num %}" method="post"> 
+        <div hidden>
+          <input type="submit" formaction="{% url 'index' num %}" class="btn btn-outline-danger mt-2"> 
+        </div>
+        <div id="number" hidden>{{num}}</div>
+        <div id="current" hidden>0</div>
+        <div id="sethour" hidden>0</div><div id="setmin" hidden>0</div><div id="setsec" hidden>0</div><div id="settitle" hidden></div>
+        <div id="test" hidden></div>
+        <div id="save_submit" hidden></div>
+        &nbsp;&nbsp;&nbsp;
+        <input type="submit" formaction="{% url 'index' plus %}" name="plus_0" value="＋" class="btn btn-outline-primary mt-2">
+        {% for form in TimerForm %}
+          <br>
+          <div style="display:inline-flex">
+            <h3 id="point_{{forloop.counter}}">●</h3>
+            {{form.id}}
+            {{form}}
+          </div>
+            <td>&nbsp;&nbsp;</td>
+            <input type="submit" formaction="{% url 'index' minus %}" name="minus_{{forloop.counter}}" value="消去" class="btn btn-outline-danger mt-2"> 
+          <br>&nbsp;&nbsp;&nbsp;
+          <input type="submit" formaction="{% url 'index' plus %}" name="plus_{{forloop.counter}}" value="＋" class="btn btn-outline-primary mt-2">
+          
+          {% if forloop.counter != num %}
+          &emsp;&emsp;&emsp;
+          <span style="margin-right:20em;"></span>
+          <input type="submit" formaction="{% url 'index' num %}" name="change_{{forloop.counter}}" value="↑↓" class="btn btn-outline-success mt-2">
+          {% endif %}
+        {% endfor %}
+        {{ TimerForm.management_form }}
+        {% csrf_token %}
+          <br>
+          <br>
+          <table width="500">
+            <div style="text-align: left;float: left;">
+              <td>{{TimerSetForm.title}}</td>
+             </div>
+          </table>
+
+          <br>
+        <div style="text-align: right;float: right;">
+
+          <input type="button" name="save" onclick="SaveSend()" value="保存" class="btn btn-outline-info mt-2">
+        </div>
+        
+      </form>
+
+
+      <h6>
+        <br><br><br>
+        <details>
+          <summary>使い方ヘルプ</summary>
+          <br>
+          
+          ＋ボタンでタイマーをいくつでも増やすことができます。スタートボタンを押すと一番上のタイマーが起動します。<br>
+          そのタイマーが00:00:00になると、直後に次のタイマーが自動的に起動します。<br>
+          Soundでは、そのタイマーが00:00:00になった時に鳴らす音を指定できます。<br>
+          リセット：&emsp;&emsp;&emsp;現在アクティブなタイマーをセットされている時刻に戻します。再びスタートすると現在アクティブなタイマーが動きます。<br>
+          オールリセット：全てのタイマーをセットされている時刻に戻します。再びスタートすると最初のタイマーが動きます。<br>
+        </details>
+        <br>
+
+        <div hidden>
+        <br><br>
+        &emsp;&ensp;リセット：&ensp;&emsp;現在アクティブなタイマーをセットされている時刻に戻します。再びスタートすると現在アクティブなタイマーが動きます。<br>
+        オールリセット：全てのタイマーをセットされている時刻に戻します。再びスタートすると最初のタイマーが動きます。<br>
+      </div>
+      </h6>
+      <script src='../../static/timer/js/new_timer.js'>
+      </script>
+      <script src='../../static/timer/js/menu.js'>
+      </script>
+{% endblock %}

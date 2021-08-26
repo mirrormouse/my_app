@@ -14,15 +14,23 @@
 
     </head>
     <body class="container">
-      {% if user.id %}
-      <p>こんにちは。{{user.username}}さん</p>
-      <a href="{% url 'logout' %}">ログアウトする</a>
-      {% else %}     
-      <div class="text-center">
-        <a href="{% url 'login' %}" class="btn btn-primary">ログイン</a>
-        <a href="{% url 'create_account' %}" class="btn btn-primary">アカウント作成</a>
-      </div>
-      {% endif %}
-
+      <table class="table">
+          <tr>
+              <th>id</th>
+              <th>title</th>
+              <th>hour</th>
+              <th>min</th>
+              <th>second</th>
+          </tr>
+          <tr>
+              <td>{{data.id}}</td>
+              <td>{{data.title}}</td>
+              <td>{{data.hour}}</td>
+              <td>{{data.min}}</td>
+              <td>{{data.second}}</td>
+          </tr>
+      </table>
+      {{data}}
     </body>
+    
 </html>
