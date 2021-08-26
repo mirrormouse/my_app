@@ -27,6 +27,7 @@
         <li class="nav-item" id="menu_edit">
           <a class="nav-link" href="{% url 'edit' %}">編集する</a>
       　</li>
+      <!--
         <li class="nav-item" id="menu_publish">
             <a class="nav-link" href="{% url 'index' 1 %}">投稿する</a>
         </li>
@@ -36,8 +37,10 @@
         <li class="nav-item">
           <span style="margin-right:10em;"></span>
         </li>
+        -->
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'logout' %}">ログアウト</a>
+          <a class="nav-link" href="{% url 'logout' %}" onclick="var flag=confirm('ログアウトしてもよろしいですか');
+          if (flag) location.href='/timer/logout'; return false;">ログアウト</a>
         </li>
       </ul>
         <span>こんにちは　<span class="h6"></span>{{user.username}}さん</span></span>

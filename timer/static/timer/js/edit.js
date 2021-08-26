@@ -1,3 +1,74 @@
+const ti=3;
+const h=ti+1;
+const m=h+1;
+const s=m+1;
+const n=s+2;
+const p=n+1;
+const ch=p+1;
+const cir=10;
+/*
+function EditSend(){  
+    var qua=document.getElementById("number").innerHTML;
+    var id=document.getElementById("the_id").innerHTML;
+    Number(qua);
+    var flag=0;
+    for(let i=0; i < qua ; i++){
+      j=Number(i)
+      
+      var hour=String(setfig(Math.floor(document.forms[sets].elements[h+cir*j].value)));
+      var min=String(setfig(Math.floor(document.forms[sets].elements[m+cir*j].value)));
+      var sec=String(setfig(Math.floor(document.forms[sets].elements[s+cir*j].value)));
+      
+      if(hour=="00"){
+        document.forms[sets].elements[h+cir*j].value="00";
+      }
+      if(min=="00"){
+        document.forms[sets].elements[m+cir*j].value="00";
+      }
+      if(sec=="00"){
+        document.forms[sets].elements[s+cir*j].value="00";
+      }
+      if( (hour=="00") || (min=="00") || (sec=="00") )
+      {
+        flag=1;
+      }
+      var nummin=Number(min);
+      var numsec=Number(sec);
+      if(nummin>59||numsec>59){
+        flag=2;
+      }
+    }
+    if(flag==1){
+      alert("計測時間が00:00:00であるタイマーがあります");
+    }else if(flag==2){
+      alert("分、秒に指定できるのは０以上５９以下の数字のみです");
+      
+      var num=3600*numhour+60*nummin+numsec;
+      document.forms[1].elements[h+cir*j].value=setfig(Math.floor(num/3600));
+      var rem=num%3600;
+      document.forms[1].elements[m+cir*j].value=setfig(Math.floor(rem/60));
+      document.forms[1].elements[s+cir*j].value=setfig(Math.floor(rem%60));
+      
+    }
+    if(flag==0){
+      document.timerset.action="../timer/edit/"+String(qua)+"/"+String(id);
+    }
+    
+  }
+*/
+function Delete(){
+    if(window.confirm('このタイマーを削除します。よろしいですか？（この操作は元に戻せません）')){
+        var id=document.getElementById("the_id").innerHTML;
+        location.href = "../delete/"+String(id);
+      }
+}
+  
+function Active(){
+    target = document.getElementById("menu_edit");
+    target.style.backgroundColor="#CCFFFF";
+  }
+
+
 setfig=function(num) {
     // 桁数が1桁だったら先頭に0を加えて2桁に調整する
     var result;
@@ -28,7 +99,6 @@ setfig=function(num) {
   
   const titles=1;
   const sets=2;
-
   document.forms[titles].elements[1].disabled=true;
   document.forms[titles].elements[2].disabled=true;
   document.forms[titles].elements[3].disabled=true;
@@ -37,14 +107,7 @@ setfig=function(num) {
   var timer1; //タイマーを格納する変数（タイマーID）の宣言
   //カウントダウン関数を1000ミリ秒毎に呼び出す関数
   var blank="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-  const ti=2;
-  const h=ti+1;
-  const m=h+1;
-  const s=m+1;
-  const n=s+2;
-  const p=n+1;
-  const ch=p+1;
-  const cir=7;
+  Active();
   UpdateChange(0);
   TitleUpdate();
   const start_sound=document.getElementById("start_sound")

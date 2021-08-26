@@ -1,0 +1,15 @@
+{% extends 'timer/layout.html' %}
+
+{% block content %}
+<form action="{% url 'use' %}" method="post">
+    {% csrf_token %}
+    {{TimerSelectForm}}
+    <input type="button" name="choice" value="選択" class="btn btn-primary mt-2"> 
+</form>
+    <h3 class="text-danger">
+        <br>
+        {{msg}}
+    </h3>
+    <script src='../../static/timer/js/edit_non.js'>
+    </script>
+{% endblock %}

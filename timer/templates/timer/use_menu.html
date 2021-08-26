@@ -6,6 +6,11 @@
       {{TimerSelectForm}}
       <input type="submit" formaction="{% url 'use' %}" name="choice" value="選択" class="btn btn-primary mt-2"> 
 </form>
+<h3 class="text-danger">
+      <br>
+      {{msg}}
+</h3>
+     
       <script src='../../static/timer/js/use.js'>
       </script>
 {% endblock %}

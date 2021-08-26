@@ -4,6 +4,22 @@ function Active(){
   }
 Active();
 
+/*
+const save_button=document.getElementById('save');
+
+save_button.addEventListener('click',(e)=>{
+    e.preventDefault();
+    var flag=SaveSend()
+    if(flag==1){
+        alert("計測時間が00:00:00であるタイマーがあります");
+      }else if(flag==2){
+        alert("分、秒に指定できるのは０以上５９以下の数字のみです");
+      }else{
+        document.timerset.submit()
+      }
+});
+*/
+
 function SaveSend(){
   var qua=document.getElementById("number").innerHTML;
   Number(qua);
@@ -28,27 +44,13 @@ function SaveSend(){
     {
       flag=1;
     }
-    var numhour=Number(hour);
     var nummin=Number(min);
     var numsec=Number(sec);
-    if(nummin>59||numsec>59){
+    if(flag==0&(nummin>59||numsec>59)){
       flag=2;
     }
   }
-  if(flag==1){
-    alert("計測時間が00:00:00であるタイマーがあります")
-  }else if(flag==2){
-    alert("分、秒に指定できるのは０以上５９以下の数字のみです");
-    /*
-    var num=3600*numhour+60*nummin+numsec;
-    document.forms[1].elements[h+cir*j].value=setfig(Math.floor(num/3600));
-    var rem=num%3600;
-    document.forms[1].elements[m+cir*j].value=setfig(Math.floor(rem/60));
-    document.forms[1].elements[s+cir*j].value=setfig(Math.floor(rem%60));
-    */
-  }
-  if(flag==0){
-    document.timerset.action="../timer/"+String(qua)+".html";
-  }
+  return flag;
+
   
 }

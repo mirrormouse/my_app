@@ -18,4 +18,6 @@ urlpatterns=[
     path('list',views.show,name='show'),
     path('edit/<int:id>/<int:num>',views.edit,name='edit'),
     path('edit',views.edit_redirect,name='edit'),
+    path('edit_non',views.edit_non,name='edit_non'),
+    path('edit/delete/<int:id>',views.delete,name='delete'),
 ]

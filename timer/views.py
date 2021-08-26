@@ -57,6 +57,14 @@ def use_redirect(request):
     return render(request,'timer/use_menu.html',params)
 
 @login_required(login_url='/timer/login')
+def edit_non(request):
+    params={
+        'TimerSelectForm':TimerSelectForm(request.user),
+        'msg':'編集可能なタイマーがありません。「新規作成」でタイマーを作成してください。',
+    }
+    return render(request,'timer/edit_non.html',params)
+
+@login_required(login_url='/timer/login')
 def use(request):
     TimerCreateFormSet=forms.modelformset_factory(
         Timer,
@@ -74,6 +82,7 @@ def use(request):
         'ids':0,
         'title':'',
         'TimerSelectForm':TimerSelectForm(request.user),
+        'msg':'',
         #'args':{'title':'Timer','hour':1,'min':0,'sec':0},
     }
     if (request.method=='POST'):
@@ -102,7 +111,11 @@ def use(request):
         return render(request,'timer/use.html',params)
     else:
         try:
-            data,cnt,timer_title=get_timer(1)
+            obj=TimerSet.objects.filter(user=request.user).first()
+            obj_list=str(obj).split(" ",2)
+            #print(obj_list)
+            id=int(obj_list[0])
+            data,cnt,timer_title=get_timer(id)
             modelformset=forms.modelformset_factory(
                 Timer,
                 form=TimerCreateForm,
@@ -117,26 +130,34 @@ def use(request):
             params['title']=timer_title
             return render(request,'timer/use.html',params)
         except:
+            params['msg']="使用可能なタイマーがありません。「新規作成」でタイマーを作成してください。"
             return render(request,'timer/use_menu.html',params)
 
 
 @login_required(login_url='/timer/login')
 def edit_redirect(request):
     try:
+        
         try:
             id=request.POST['groups']
         except:
-            obj=TimerSet.objects.all().first()
+            obj=TimerSet.objects.filter(user=request.user).first()
             obj_list=str(obj).split(" ",2)
             #print(obj_list)
             id=int(obj_list[0])
         
-        #print("good")
         data,cnt,timer_title=get_timer(id)
         ur='/timer/edit/'+str(id)+'/'+str(cnt)
         return redirect(to=ur)
     except:
-        return redirect(to='/timer/use_redirect')
+        return redirect(to='/timer/edit_non')
+
+@login_required(login_url='/timer/login')
+def delete(request,id):
+    old_set=TimerSet.objects.filter(id=id)
+    old_set.delete()
+    print("delete")
+    return redirect(to='/timer/use')
 
 @login_required(login_url='/timer/login')
 def edit(request,id,num):
@@ -194,6 +215,10 @@ def edit(request,id,num):
             params['data']=data
             params['TimerForm']=formset_request
             return redirect(to='/timer/use')
+        elif 'all_delete'in request.POST:
+            old_set=TimerSet.objects.filter(id=id)
+            old_set.delete()
+            return redirect(to='/timer/use')
         else:
             modelformset=forms.modelformset_factory(
                 Timer,
@@ -241,6 +266,16 @@ def edit(request,id,num):
     )
     timerselect=TimerSelectForm(request.user,initial={'groups':id})
     params['TimerSelectForm']=timerselect
+    for i in range (num+1):
+        try:
+            hour=old_data[i]['hour']
+            min=old_data[i]['min']
+            sec=old_data[i]['sec']
+            old_data[i]['hour']=setfig(hour)
+            old_data[i]['min']=setfig(min)
+            old_data[i]['sec']=setfig(sec)
+        except:
+            pass
     formset_request=modelformset(queryset=Timer.objects.none(),initial=old_data)
     params['TimerForm']=formset_request
     #print(formset_request.errors)
@@ -280,6 +315,7 @@ def index(request,num=1):
         if 'clear' in request.POST:
             pass
         elif 'save' in request.POST:
+            print("save!!")
             modelformset=forms.modelformset_factory(
                 Timer,
                 form=TimerCreateForm,

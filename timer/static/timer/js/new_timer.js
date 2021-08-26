@@ -173,7 +173,7 @@ setfig=function(num) {
       var nummin=Number(min);
       var numsec=Number(sec);
       if(nummin>59||numsec>59){
-        flag=2;
+        //flag=2;
       }
       
       
