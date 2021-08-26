@@ -7,6 +7,9 @@
       <audio id="stop_sound">
         <source src="../../static/timer/sound/Stop.mp3">
       </audio>
+      <audio id="mute_sound">
+        <source src="../../static/timer/sound/Mute.mp3">
+      </audio>
       <form action="{% url 'use' %}" method="post">
         {% csrf_token %}
         {{TimerSelectForm}}

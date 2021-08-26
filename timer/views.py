@@ -92,6 +92,16 @@ def use(request):
         elif 'choice' in request.POST:
             timer_id=request.POST['groups']
             data,cnt,timer_title=get_timer(timer_id)
+            for i in range (cnt+1):
+                try:
+                    hour=data[i]['hour']
+                    min=data[i]['min']
+                    sec=data[i]['sec']
+                    data[i]['hour']=setfig(hour)
+                    data[i]['min']=setfig(min)
+                    data[i]['sec']=setfig(sec)
+                except:
+                    pass
             params['title']=timer_title
             modelformset=forms.modelformset_factory(
                 Timer,
@@ -116,6 +126,16 @@ def use(request):
             #print(obj_list)
             id=int(obj_list[0])
             data,cnt,timer_title=get_timer(id)
+            for i in range (cnt+1):
+                try:
+                    hour=data[i]['hour']
+                    min=data[i]['min']
+                    sec=data[i]['sec']
+                    data[i]['hour']=setfig(hour)
+                    data[i]['min']=setfig(min)
+                    data[i]['sec']=setfig(sec)
+                except:
+                    pass
             modelformset=forms.modelformset_factory(
                 Timer,
                 form=TimerCreateForm,
