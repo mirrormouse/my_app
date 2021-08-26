@@ -122,11 +122,23 @@ setfig=function(num) {
     stop_sound.currentTime=0;
   }
   function Stop_Sound_Test(){
+    start_sound.muted=true;
+    start_sound.play();
+    ResetSound();
+    start_sound.muted=false;
+    start_sound.load();
+    stop_sound.load();
     ResetSound();
     stop_sound.play();
     Confirm_Sound();
   }
   function Start_Sound_Test(){
+    start_sound.muted=true;
+    start_sound.play();
+    ResetSound();
+    start_sound.muted=false;
+    start_sound.load();
+    stop_sound.load();
     ResetSound();
     start_sound.play();
     Confirm_Sound();
@@ -140,6 +152,12 @@ setfig=function(num) {
   
   function Start()
   {
+    start_sound.muted=true;
+    start_sound.play();
+    ResetSound();
+    start_sound.muted=false;
+    start_sound.load();
+    stop_sound.load();
   
     document.getElementById("reset").disabled = true;
     document.getElementById("allreset").disabled = true;
