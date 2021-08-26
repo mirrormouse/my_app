@@ -11,10 +11,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import django_heroku
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+import dj_database_url
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -128,3 +130,20 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DATABASES['default'] = dj_database_url.config()
+ 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+ 
+ALLOWED_HOSTS = ['*']
+ 
+STATIC_ROOT = 'staticfiles'
+ 
+DEBUG = False
+ 
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+# Activate Django-Heroku.
+django_heroku.settings(locals())
