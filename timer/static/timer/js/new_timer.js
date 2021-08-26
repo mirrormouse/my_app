@@ -138,7 +138,7 @@ setfig=function(num) {
   
   function Start()
   {
-  
+    
     document.getElementById("reset").disabled = true;
     document.getElementById("allreset").disabled = true;
     document.getElementById("start").disabled = true;
