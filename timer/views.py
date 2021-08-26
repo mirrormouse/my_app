@@ -186,6 +186,14 @@ def edit(request,id,num):
         form=TimerCreateForm,
         extra=num
     )
+    if(num>=10000):
+        plus=num
+    else:
+        plus=num+1
+    if(num<2):
+        minus=num
+    else:
+        minus=num-1
     old_data,cnt,timer_title=get_timer(id)
     params={
         'TimerSetForm':TimerSetForm(initial={'title':timer_title}),
@@ -194,8 +202,8 @@ def edit(request,id,num):
             initial=[{'title':'Timer','hour':'00','min':'00','sec':'00'}],
             ),
         'num':num,
-        'plus':num+1,
-        'minus':num-1,
+        'plus':plus,
+        'minus':minus,
         'id':id,
         'title':'',
         'test':'OK',
@@ -319,6 +327,10 @@ def index(request,num=1):
         plus=num
     else:
         plus=num+1
+    if(num<2):
+        minus=num
+    else:
+        minus=num-1
     params={
         'TimerSetForm':TimerSetForm(),
         'TitleForm':TitleForm(initial={'title':'タイトル','hour':'時','min':'分','sec':'秒','sound':'アラーム'}),
@@ -327,7 +339,7 @@ def index(request,num=1):
             ),
         'num':num,
         'plus':plus,
-        'minus':num-1,
+        'minus':minus,
         'data':[],
         #'args':{'title':'Timer','hour':1,'min':0,'sec':0},
     }
@@ -425,6 +437,14 @@ def timer(request,num=1):
         form=TimerCreateForm,
         extra=1,
     )
+    if(num>=10000):
+        plus=num
+    else:
+        plus=num+1
+    if(num<2):
+        minus=num
+    else:
+        minus=num-1
     params={
         'TitleForm':TitleForm(initial={'title':'タイトル','hour':'時','min':'分','sec':'秒','sound':'アラーム'}),
         'TimerForm':TimerCreateFormSet(
@@ -432,8 +452,8 @@ def timer(request,num=1):
             initial=[{'title':'Timer','hour':'00','min':'00','sec':'00'}],
             ),
         'num':num,
-        'plus':num+1,
-        'minus':num-1,
+        'plus':plus,
+        'minus':minus,
         #'args':{'title':'Timer','hour':1,'min':0,'sec':0},
     }
     if (request.method=='POST'):
