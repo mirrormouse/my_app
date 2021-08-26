@@ -33,10 +33,14 @@
       <div style="display:inline-flex">
       <p id="Timer" class="display-4 text-primary">Timer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00:00:00</p>
       </div>
+      <div style="display:inline-flex">
+        音量
       <input type="range" id="volume" name="volume" min="0" max="1" step="0.1" value="0">
       <input id="mute" type="button" value="OFF" style="width:1; padding:3px; font-size:15px;" onclick="Mute()"  name="mute" class="btn btn-outline-secondary mt-2">
+      </div>
       <details>
         <summary>音声確認（※音量注意）</summary>
+          ※iOSでは、以下のボタンで音声確認をしないとタイマー終了時に音が鳴らない可能性があります。
           <input id="stop_sound_test" type="button" style="width:1; padding:3px; font-size:15px;" value="終了音を鳴らす" onclick="Stop_Sound_Test()"  class="btn btn-outline-secondary mt-2">
           <input id="start_sound_test" type="button" style="width:1; padding:3px; font-size:15px;" value="開始音を鳴らす" onclick="Start_Sound_Test()"  class="btn btn-outline-secondary mt-2">
       </details>
