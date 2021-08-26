@@ -41,7 +41,8 @@ setfig=function(num) {
   const h=ti+1;
   const m=h+1;
   const s=m+1;
-  const n=s+2;
+  const so=s+1;
+  const n=so+1;
   const p=n+1;
   const ch=p+1;
   const cir=7;
@@ -158,7 +159,7 @@ setfig=function(num) {
     document.getElementById("allreset").disabled = true;
     var cur=document.getElementById("current").innerHTML;
     var qua=document.getElementById("number").innerHTML;
-    Number(qua);
+    qua=Number(qua);
   
     var flag=0;
   
@@ -262,6 +263,7 @@ setfig=function(num) {
     
     if (num<=0)
     {      
+       
       clearInterval(timer1);
       numberReset();
       Update_Char(num);
@@ -269,11 +271,12 @@ setfig=function(num) {
       cur=Number(cur);
       chart.data.datasets[0].data = [1,0];
       chart.update();
-      var idname="point_"+String(cur+1);
-      document.getElementById(idname).style.color="black";
       RemoveChange(cur);
+      document.getElementById("start").disabled=false;
       var flag=Number(document.forms[sets].elements[so+cir*cur].value);
+      
       Volume();
+      
       if(flag==0){
         ResetSound();
         stop_sound.play();
@@ -283,6 +286,8 @@ setfig=function(num) {
       }
       
       if(qua>cur+1){
+        var idname="point_"+String(cur+1);
+        document.getElementById(idname).style.color="black";
         recent_change=true;
         var next=Number(cur)+1;
         
@@ -290,7 +295,7 @@ setfig=function(num) {
         TimerStart(next,qua);
       }else{
         document.getElementById("current").innerHTML="0";
-        document.getElementById("start").disabled=false;
+        
         document.getElementById("reset").disabled = false;
         document.getElementById("allreset").disabled = false;
         var settitle=document.getElementById("settitle").innerHTML;
