@@ -4,21 +4,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 
-def fig(i):
-    if i==0:
-        return "00"
-    elif i<10:
-        return "0"+str(i)
-    else:
-        return str(i)
-
-Number=[]
-for i in range(60):
-    Number.append((fig(i),fig(i)))
-
-Hour=[]
-for i in range(1000):
-    Hour.append((fig(i),fig(i)))
 
 
 class UserCreateForm(UserCreationForm):
@@ -42,27 +27,28 @@ class TimerCreateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['title']=forms.CharField(
             label='',
-            widget=forms.TextInput(attrs={'class':'form-control'})
+            required=False,
+            widget=forms.TextInput(attrs={'placeholder':'タイマー', 'class':'form-control'})
         )
-        self.fields['hour']=forms.ChoiceField(
+        self.fields['hour']=forms.IntegerField(
             label='',
-            choices=Hour,
-            widget=forms.Select(attrs={'class':'form-control'})
+            required=False,
+            widget=forms.NumberInput(attrs={'placeholder':'00', 'class':'form-control'})
         )
-        self.fields['min']=forms.ChoiceField(
+        self.fields['min']=forms.IntegerField(
             label='',
-            choices=Number,
-            widget=forms.Select(attrs={'class':'form-control'})
+            required=False,
+            widget=forms.NumberInput(attrs={'placeholder':'00', 'class':'form-control'})
         )
-        self.fields['sec']=forms.ChoiceField(
+        self.fields['sec']=forms.IntegerField(
             label='',
-            choices=Number,
-            widget=forms.Select(attrs={'class':'form-control'})
+            required=False,
+            widget=forms.NumberInput(attrs={'placeholder':'00', 'class':'form-control'})
         )
         self.fields['sound']=forms.ChoiceField(
             label='',
             choices=SOUND,
-            widget=forms.Select(attrs={'class':'form-control'})
+            widget=forms.Select(attrs={'placeholder':'00', 'class':'form-control'})
         )
     class Meta:
         model = Timer

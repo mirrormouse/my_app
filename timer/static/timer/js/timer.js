@@ -31,6 +31,7 @@ setfig=function(num) {
   document.forms[0].elements[3].disabled=true;
   document.forms[0].elements[4].disabled=true;
   document.forms[0].elements[5].disabled=true;
+  
   var timer1; //タイマーを格納する変数（タイマーID）の宣言
   //カウントダウン関数を1000ミリ秒毎に呼び出す関数
   var blank="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -203,7 +204,7 @@ setfig=function(num) {
       alert("分、秒に指定できるのは０以上５９以下の数字のみです");
       document.getElementById("start").disabled=false;
     }else{
-      
+        document.forms[1].elements[1].disabled=true;
       for(let i=0;i<qua;i++){
         j=Number(i);
         document.forms[1].elements[n+cir*j].disabled=true;
@@ -351,6 +352,7 @@ setfig=function(num) {
     if (cur==0){
       var qua=document.getElementById("number").innerHTML;
       Number(qua);
+      document.forms[1].elements[1].disabled=false;
       for(let i=0;i<qua;i++){
         j=Number(i);
         document.forms[1].elements[n+cir*j].disabled=false;

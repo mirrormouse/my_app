@@ -74,7 +74,7 @@ def use(request):
     params={
         'TitleForm':TitleForm(initial={'title':'タイトル','hour':'時','min':'分','sec':'秒','sound':'アラーム'}),
         'TimerForm':TimerCreateFormSet(
-            initial=[{'title':'Timer','hour':'00','min':'00','sec':'00'}],
+            initial=[{'title':'','hour':'','min':'','sec':''}],
             ),
         'num':1,
         'plus':2,
@@ -199,7 +199,7 @@ def edit(request,id,num):
         'TimerSetForm':TimerSetForm(initial={'title':timer_title}),
         'TitleForm':TitleForm(initial={'title':'タイトル','hour':'時','min':'分','sec':'秒','sound':'アラーム'}),
         'TimerForm':TimerCreateFormSet(
-            initial=[{'title':'Timer','hour':'00','min':'00','sec':'00'}],
+            initial=[{'title':'','hour':'','min':'','sec':''}],
             ),
         'num':num,
         'plus':plus,
@@ -263,7 +263,7 @@ def edit(request,id,num):
                     minus_str='minus_'+str(i)
                     change_str='change_'+str(i)
                     if plus_str in request.POST:
-                        temp={'title':'Timer','hour':'00','min':'00','sec':'00'}
+                        temp={'title':'','hour':'','min':'','sec':''}
                         data.insert(i,temp)
                     if minus_str in request.POST and num>1:
                         del data[i-1]
@@ -335,7 +335,7 @@ def index(request,num=1):
         'TimerSetForm':TimerSetForm(),
         'TitleForm':TitleForm(initial={'title':'タイトル','hour':'時','min':'分','sec':'秒','sound':'アラーム'}),
         'TimerForm':TimerCreateFormSet(queryset=Timer.objects.none(),
-            initial=[{'title':'Timer','hour':'00','min':'00','sec':'00'}],
+            initial=[{'title':'','hour':'','min':'','sec':''}],
             ),
         'num':num,
         'plus':plus,
@@ -392,7 +392,7 @@ def index(request,num=1):
                     minus_str='minus_'+str(i)
                     change_str='change_'+str(i)
                     if plus_str in request.POST:
-                        temp={'title':'Timer','hour':'00','min':'00','sec':'00'}
+                        temp={'title':'','hour':'','min':'','sec':''}
                         data.insert(i,temp)
                     if minus_str in request.POST and num>1:
                         del data[i-1]
@@ -449,7 +449,7 @@ def timer(request,num=1):
         'TitleForm':TitleForm(initial={'title':'タイトル','hour':'時','min':'分','sec':'秒','sound':'アラーム'}),
         'TimerForm':TimerCreateFormSet(
             queryset=Timer.objects.none(),
-            initial=[{'title':'Timer','hour':'00','min':'00','sec':'00'}],
+            initial=[{'title':'','hour':'','min':'','sec':''}],
             ),
         'num':num,
         'plus':plus,
@@ -466,7 +466,7 @@ def timer(request,num=1):
                 extra=int(num),
             )
             formset_request=modelformset(request.POST,queryset=Timer.objects.none())
-            #print(formset_request.errors)
+            print(formset_request.errors)
             if formset_request.is_valid():
                 data=formset_request.cleaned_data
                 for i in range(num+1):
@@ -474,7 +474,7 @@ def timer(request,num=1):
                     minus_str='minus_'+str(i)
                     change_str='change_'+str(i)
                     if plus_str in request.POST:
-                        temp={'title':'Timer','hour':'00','min':'00','sec':'00'}
+                        temp={'title':'','hour':'','min':'','sec':''}
                         data.insert(i,temp)
                     if minus_str in request.POST and num>1:
                         del data[i-1]

@@ -229,3 +229,16 @@ account_logout=Account_logout.as_view()
 
 # Create your views here.
 
+
+
+
+def fig(i):
+    if i==0:
+        return "00"
+    elif i<10:
+        return "0"+str(i)
+    else:
+        return str(i)
+Number=[]
+for i in range(60):
+    Number.append((fig(i),fig(i)))
