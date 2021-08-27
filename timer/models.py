@@ -3,11 +3,12 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator
 
 # Create your models here.
-SOUND=(
+SOUND=[
     ("0","終了音"),
     ("1","開始音"),
     ("2","音声なし"),
-)
+]
+
 
 class Timer(models.Model):
     title=models.CharField(max_length=100,default='Timer',null=True,blank=True)

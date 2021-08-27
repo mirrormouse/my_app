@@ -4,6 +4,21 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 
+def fig(i):
+    if i==0:
+        return "00"
+    elif i<10:
+        return "0"+str(i)
+    else:
+        return str(i)
+
+Number=[]
+for i in range(60):
+    Number.append((fig(i),fig(i)))
+
+Hour=[]
+for i in range(1000):
+    Hour.append((fig(i),fig(i)))
 
 
 class UserCreateForm(UserCreationForm):
@@ -29,17 +44,20 @@ class TimerCreateForm(forms.ModelForm):
             label='',
             widget=forms.TextInput(attrs={'class':'form-control'})
         )
-        self.fields['hour']=forms.IntegerField(
+        self.fields['hour']=forms.ChoiceField(
             label='',
-            widget=forms.NumberInput(attrs={'class':'form-control'})
+            choices=Hour,
+            widget=forms.Select(attrs={'class':'form-control'})
         )
-        self.fields['min']=forms.IntegerField(
+        self.fields['min']=forms.ChoiceField(
             label='',
-            widget=forms.NumberInput(attrs={'class':'form-control'})
+            choices=Number,
+            widget=forms.Select(attrs={'class':'form-control'})
         )
-        self.fields['sec']=forms.IntegerField(
+        self.fields['sec']=forms.ChoiceField(
             label='',
-            widget=forms.NumberInput(attrs={'class':'form-control'})
+            choices=Number,
+            widget=forms.Select(attrs={'class':'form-control'})
         )
         self.fields['sound']=forms.ChoiceField(
             label='',
