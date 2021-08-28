@@ -66,6 +66,7 @@ def edit_non(request):
 
 @login_required(login_url='/timer/login')
 def use(request):
+    print("!!!!!!!!!!!!!!!")
     TimerCreateFormSet=forms.modelformset_factory(
         Timer,
         form=TimerCreateForm,
@@ -86,6 +87,7 @@ def use(request):
         #'args':{'title':'Timer','hour':1,'min':0,'sec':0},
     }
     if (request.method=='POST'):
+
         print(request.POST)
         if 'clear' in request.POST:
             pass

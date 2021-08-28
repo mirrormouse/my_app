@@ -11,6 +11,12 @@ setfig=function(num) {
     return result;
   }
   
+  document.onkeypress = function(e) {
+    // エンターキーだったら無効にする
+    if (e.key === 'Enter') {
+      return false;
+    }
+  }
   function Repeat(){
     var blank=document.getElementById("centering").value;
     var num=60;
@@ -96,6 +102,7 @@ setfig=function(num) {
       }
     });
   }
+
   
   
   var recent_change=true;
