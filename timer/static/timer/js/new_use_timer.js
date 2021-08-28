@@ -36,7 +36,7 @@ setfig=function(num) {
   document.forms[titles].elements[5].disabled=true;
   var timer1; //タイマーを格納する変数（タイマーID）の宣言
   //カウントダウン関数を1000ミリ秒毎に呼び出す関数
-  var blank="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+  var blank="&nbsp;&nbsp;&nbsp;";
   const ti=2;
   const h=ti+1;
   const m=h+1;

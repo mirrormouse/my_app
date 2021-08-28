@@ -236,6 +236,8 @@ def edit(request,id,num):
                 setstring+=str(obj_list[0])+"_"
             print(setstring)
             maintitle=request.POST['title']
+            if maintitle is None:
+                maintitle="タイトル"
             #print(request.user)
             #print(maintitle)
             TimerObject=TimerSet(user=request.user,title=maintitle,set=setstring)
@@ -367,6 +369,12 @@ def index(request,num=1):
                 setstring+=str(obj_list[0])+"_"
             print(setstring)
             maintitle=request.POST['title']
+            if maintitle is None:
+                maintitle="タイトル未設定"
+            if len(str(maintitle))==0:
+                maintitle="タイトル未設定"
+            if not maintitle:
+                maintitle="タイトル未設定"
             #print(request.user)
             #print(maintitle)
             TimerObject=TimerSet(user=request.user,title=maintitle,set=setstring)

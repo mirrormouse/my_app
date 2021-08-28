@@ -96,8 +96,8 @@ class TitleForm(forms.Form):
     
 
 class TimerSetForm(forms.Form):
-    title=forms.CharField(label='',initial='タイトルを入力してください',\
-        widget=forms.TextInput(attrs={'class':'form-control'}))
+    title=forms.CharField(label='',required=False,\
+        widget=forms.TextInput(attrs={'placeholder':'タイトルを設定してください','class':'form-control'}))
 
 class TimerSelectForm(forms.Form):
     def __init__(self,user,*args,**kwargs):
