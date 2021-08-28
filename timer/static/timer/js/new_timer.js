@@ -110,11 +110,23 @@ setfig=function(num) {
   
   document.getElementById("volume").addEventListener('change', Volume);
   document.getElementById("volume").addEventListener('input', Volume);
-  
+
+
+  var context;
+  var source = context.createBufferSource();
+  source.buffer = buffer;
+  source.connect(context.destination);
+  var gainNode = context.createGain();
+  // Connect the source to the gain node.
+  source.connect(gainNode);
+  // Connect the gain node to the destination.
+  gainNode.connect(context.destination);
+
   function Volume(){
     var vol=Number(document.getElementById("volume").value);
-    start_sound.volume=vol;
-    stop_sound.volume=vol;
+    gainNode.gain.value = vol;
+    //start_sound.volume=vol;
+    //stop_sound.volume=vol;
   }
   
   function Mute(){
@@ -136,7 +148,7 @@ setfig=function(num) {
   
     ResetSound();
     stop_sound.play();
-    Confirm_Sound();
+   // Confirm_Sound();
   }
   function Start_Sound_Test(){
     mute_sound.play();
@@ -145,7 +157,7 @@ setfig=function(num) {
 
     ResetSound();
     start_sound.play();
-    Confirm_Sound();
+   // Confirm_Sound();
   }
   function Confirm_Sound(){
     var vol=Number(document.getElementById("volume").value);
