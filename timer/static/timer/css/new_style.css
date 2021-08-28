@@ -11,7 +11,7 @@ h1{
     text-align:right;
 }
 p{
-    font-size:100pt;
+    font-size:10pt;
     margin:10px;
 }
 a{
@@ -19,29 +19,24 @@ a{
     text-decoration: none;
 }
 .form-control::-webkit-input-placeholder{
-    color: #9f9f9f;
-    font-size: 0.9em;
+    color: #BFBFBF;
 }
  
 /* for Firefox */
 .form-control::-moz-placeholder{
-    color: #9f9f9f;
-    font-size: 0.9em;
+    color: #BFBFBF;
 }
  
 /* for Firefox 18以前 */
 .form-control:-moz-placeholder{
-    color: #9f9f9f;
-    font-size: 0.9em;
+    color: #BFBFBF;
 }
  
 /* for Windows IE */
 .form-control:-ms-input-placeholder{
-    color: #9f9f9f;
-    font-size: 0.9em;
+    color: #BFBFBF;
 }
 
-.form-control::placeholder{
-    color: #9f9f9f;
-    font-size: 0.9em;
-}
+.form-control::placeholder {
+    color: #BFBFBF;
+ }
