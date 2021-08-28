@@ -195,6 +195,7 @@ def edit(request,id,num):
     else:
         minus=num-1
     old_data,cnt,timer_title=get_timer(id)
+    
     params={
         'TimerSetForm':TimerSetForm(initial={'title':timer_title}),
         'TitleForm':TitleForm(initial={'title':'タイトル','hour':'時','min':'分','sec':'秒','sound':'アラーム'}),
@@ -210,7 +211,8 @@ def edit(request,id,num):
         'TimerSelectForm':TimerSelectForm(request.user),
         #'args':{'title':'Timer','hour':1,'min':0,'sec':0},
     }
-
+    if str(timer_title)=="タイトル未設定":
+        params['TimerSetForm']=TimerSetForm()
 
     if(request.method=='POST'):
         if 'save' in request.POST:
@@ -298,6 +300,8 @@ def edit(request,id,num):
     params['TimerSelectForm']=timerselect
     for i in range (num+1):
         try:
+            if old_data[i]['title']=="タイマー":
+                old_data[i]['title']=""
             hour=old_data[i]['hour']
             min=old_data[i]['min']
             sec=old_data[i]['sec']

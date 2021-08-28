@@ -99,7 +99,7 @@ setfig=function(num) {
   
   const titles=1;
   const sets=2;
-  document.forms[titles].elements[1].disabled=true;
+  document.forms[titles].elements[6].disabled=true;
   document.forms[titles].elements[2].disabled=true;
   document.forms[titles].elements[3].disabled=true;
   document.forms[titles].elements[4].disabled=true;
