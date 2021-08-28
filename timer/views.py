@@ -581,7 +581,8 @@ class Account_logout(View):
         }
         return render(request,'timer/login.html',params)
 
-
+def confirm(request):
+    return render(request,'timer/google2c5b690fa79da34e.html')
 
 
 account_login=Account_login.as_view()

@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+import timer.views as timer
 
 urlpatterns = [
+    path('',timer.confirm),
     path('admin/', admin.site.urls),
     path('timer/',include('timer.urls')),
 ]
