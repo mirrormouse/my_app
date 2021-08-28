@@ -10,7 +10,12 @@ setfig=function(num) {
     }
     return result;
   }
-  
+  document.onkeypress = function(e) {
+    // エンターキーだったら無効にする
+    if (e.key === 'Enter') {
+      return false;
+    }
+  }
   function Repeat(){
     var blank=document.getElementById("centering").value;
     var num=60;
@@ -31,10 +36,9 @@ setfig=function(num) {
   document.forms[0].elements[3].disabled=true;
   document.forms[0].elements[4].disabled=true;
   document.forms[0].elements[5].disabled=true;
-  
   var timer1; //タイマーを格納する変数（タイマーID）の宣言
   //カウントダウン関数を1000ミリ秒毎に呼び出す関数
-  var blank="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+  var blank="&nbsp;&nbsp;&nbsp;";
   const ti=3;
   const h=ti+1;
   const m=h+1;
@@ -106,11 +110,23 @@ setfig=function(num) {
   
   document.getElementById("volume").addEventListener('change', Volume);
   document.getElementById("volume").addEventListener('input', Volume);
-  
+
+
+  var context;
+  var source = context.createBufferSource();
+  source.buffer = buffer;
+  source.connect(context.destination);
+  var gainNode = context.createGain();
+  // Connect the source to the gain node.
+  source.connect(gainNode);
+  // Connect the gain node to the destination.
+  gainNode.connect(context.destination);
+
   function Volume(){
     var vol=Number(document.getElementById("volume").value);
-    start_sound.volume=vol;
-    stop_sound.volume=vol;
+    gainNode.gain.value = vol;
+    //start_sound.volume=vol;
+    //stop_sound.volume=vol;
   }
   
   function Mute(){
@@ -132,7 +148,7 @@ setfig=function(num) {
   
     ResetSound();
     stop_sound.play();
-    Confirm_Sound();
+   // Confirm_Sound();
   }
   function Start_Sound_Test(){
     mute_sound.play();
@@ -141,7 +157,7 @@ setfig=function(num) {
 
     ResetSound();
     start_sound.play();
-    Confirm_Sound();
+   // Confirm_Sound();
   }
   function Confirm_Sound(){
     var vol=Number(document.getElementById("volume").value);
@@ -176,6 +192,7 @@ setfig=function(num) {
       var sec=setfig(Math.floor(document.forms[1].elements[s+cir*j].value));
       
 
+
       if( (hour=="00") && (min=="00") && (sec=="00") )
       {
         flag=1;
@@ -206,7 +223,7 @@ setfig=function(num) {
       alert("分、秒に指定できるのは０以上５９以下の数字のみです");
       document.getElementById("start").disabled=false;
     }else{
-        document.forms[1].elements[1].disabled=true;
+      
       for(let i=0;i<qua;i++){
         j=Number(i);
         document.forms[1].elements[n+cir*j].disabled=true;
@@ -354,7 +371,6 @@ setfig=function(num) {
     if (cur==0){
       var qua=document.getElementById("number").innerHTML;
       Number(qua);
-      document.forms[1].elements[1].disabled=false;
       for(let i=0;i<qua;i++){
         j=Number(i);
         document.forms[1].elements[n+cir*j].disabled=false;
