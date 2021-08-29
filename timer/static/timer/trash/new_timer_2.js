@@ -26,55 +26,62 @@ setfig=function(num) {
   
   }
   
-  const titles=1;
-  const sets=2;
-
-  document.forms[titles].elements[1].disabled=true;
-  document.forms[titles].elements[2].disabled=true;
-  document.forms[titles].elements[3].disabled=true;
-  document.forms[titles].elements[4].disabled=true;
-  document.forms[titles].elements[5].disabled=true;
+  document.forms[0].elements[1].disabled=true;
+  document.forms[0].elements[2].disabled=true;
+  document.forms[0].elements[3].disabled=true;
+  document.forms[0].elements[4].disabled=true;
+  document.forms[0].elements[5].disabled=true;
+  
   var timer1; //タイマーを格納する変数（タイマーID）の宣言
   //カウントダウン関数を1000ミリ秒毎に呼び出す関数
-  var blank="&nbsp;&nbsp;&nbsp;";
-  const ti=2;
+  var blank="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+  const ti=3;
   const h=ti+1;
   const m=h+1;
   const s=m+1;
-  const n=s+2;
+  const so=s+1;
+  const n=so+1;
   const p=n+1;
   const ch=p+1;
-  const cir=7;
+  const cir=10;
   UpdateChange(0);
   TitleUpdate();
-  const start_sound=document.getElementById("start_sound");
   const stop_sound=document.getElementById("stop_sound");
+  const start_sound=document.getElementById("start_sound");
   const mute_sound=document.getElementById("mute_sound");
   Volume();
-  
+
+  document.onkeypress = function(e) {
+    // エンターキーだったら無効にする
+    if (e.key === 'Enter') {
+      return false;
+    }
+  }
   function UpdateChange(present){
-    document.forms[sets].elements[ti+cir*present].addEventListener('change', Change);
-    document.forms[sets].elements[h+cir*present].addEventListener('change', Change);
-    document.forms[sets].elements[m+cir*present].addEventListener('change', Change);
-    document.forms[sets].elements[s+cir*present].addEventListener('change', Change);
+    document.forms[1].elements[ti+cir*present].addEventListener('change', Change);
+    document.forms[1].elements[h+cir*present].addEventListener('change', Change);
+    document.forms[1].elements[m+cir*present].addEventListener('change', Change);
+    document.forms[1].elements[s+cir*present].addEventListener('change', Change);
+    document.forms[1].elements[so+cir*present].addEventListener('change', Change);
   }
   function RemoveChange(present){
-    document.forms[sets].elements[ti+cir*present].removeEventListener('change', Change);
-    document.forms[sets].elements[h+cir*present].removeEventListener('change', Change);
-    document.forms[sets].elements[m+cir*present].removeEventListener('change', Change);
-    document.forms[sets].elements[s+cir*present].removeEventListener('change', Change);
+    document.forms[1].elements[ti+cir*present].removeEventListener('change', Change);
+    document.forms[1].elements[h+cir*present].removeEventListener('change', Change);
+    document.forms[1].elements[m+cir*present].removeEventListener('change', Change);
+    document.forms[1].elements[s+cir*present].removeEventListener('change', Change);
+    document.forms[1].elements[so+cir*present].removeEventListener('change', Change);
   }
   
-  document.forms[sets].elements[ti].addEventListener('change', TitleUpdate);
-  document.forms[sets].elements[h].addEventListener('change', TitleUpdate);
-  document.forms[sets].elements[m].addEventListener('change', TitleUpdate);
-  document.forms[sets].elements[s].addEventListener('change', TitleUpdate);
+  document.forms[1].elements[ti].addEventListener('change', TitleUpdate);
+  document.forms[1].elements[h].addEventListener('change', TitleUpdate);
+  document.forms[1].elements[m].addEventListener('change', TitleUpdate);
+  document.forms[1].elements[s].addEventListener('change', TitleUpdate);
   
   function TitleUpdate(){
-    var sethour=document.forms[sets].elements[h].value;
-    var setmin=document.forms[sets].elements[m].value;
-    var setsec=document.forms[sets].elements[s].value;
-    var settitle=document.forms[sets].elements[ti].value;
+    var sethour=document.forms[1].elements[h].value;
+    var setmin=document.forms[1].elements[m].value;
+    var setsec=document.forms[1].elements[s].value;
+    var settitle=document.forms[1].elements[ti].value;
     document.getElementById("sethour").innerHTML=sethour;
     document.getElementById("setmin").innerHTML=setmin;
     document.getElementById("setsec").innerHTML=setsec;
@@ -86,7 +93,7 @@ setfig=function(num) {
   var all=document.getElementById("number").innerHTML;
   all=Number(all)
   for(let i=0;i<p+cir*(all-1)+1;i++){
-    document.forms[sets].elements[i].addEventListener('keydown', function (event) {
+    document.forms[1].elements[i].addEventListener('keydown', function (event) {
       if (event.keyCode === 13) {
         // エンターキーが押されたときの動作
           // submitボタン以外の場合はイベントをキャンセル
@@ -128,6 +135,7 @@ setfig=function(num) {
     mute_sound.play();
     stop_sound.load();
     start_sound.load();
+  
     ResetSound();
     stop_sound.play();
     Confirm_Sound();
@@ -136,6 +144,7 @@ setfig=function(num) {
     mute_sound.play();
     start_sound.load();
     stop_sound.load();
+
     ResetSound();
     start_sound.play();
     Confirm_Sound();
@@ -147,29 +156,30 @@ setfig=function(num) {
     }
   }
   
+
   function Start()
   {
     mute_sound.play();
     ResetSound();
     start_sound.load();
     stop_sound.load();
-  
     document.getElementById("reset").disabled = true;
     document.getElementById("allreset").disabled = true;
+    document.getElementById("start").disabled = true;
     var cur=document.getElementById("current").innerHTML;
     var qua=document.getElementById("number").innerHTML;
     Number(qua);
   
     var flag=0;
   
-    document.getElementById("start").disabled = true;
+
     
     for(let i=0; i < qua ; i++){
       j=Number(i)
       //alert("計測時間が00:00:00であるタイマーがあります");
-      var hour=setfig(Math.floor(document.forms[sets].elements[h+cir*j].value));
-      var min=setfig(Math.floor(document.forms[sets].elements[m+cir*j].value));
-      var sec=setfig(Math.floor(document.forms[sets].elements[s+cir*j].value));
+      var hour=setfig(Math.floor(document.forms[1].elements[h+cir*j].value));
+      var min=setfig(Math.floor(document.forms[1].elements[m+cir*j].value));
+      var sec=setfig(Math.floor(document.forms[1].elements[s+cir*j].value));
       
 
       if( (hour=="00") && (min=="00") && (sec=="00") )
@@ -177,13 +187,13 @@ setfig=function(num) {
         flag=1;
       }else{
         if(hour=="00"){
-            document.forms[sets].elements[h+cir*j].value="00";
+            document.forms[1].elements[h+cir*j].value="00";
           }
           if(min=="00"){
-            document.forms[sets].elements[m+cir*j].value="00";
+            document.forms[1].elements[m+cir*j].value="00";
           }
           if(sec=="00"){
-            document.forms[sets].elements[s+cir*j].value="00";
+            document.forms[1].elements[s+cir*j].value="00";
           }
       }
       var nummin=Number(min);
@@ -198,9 +208,16 @@ setfig=function(num) {
     if(flag==1){
       alert("計測時間が00:00:00または未設定であるタイマーがあります");
       document.getElementById("start").disabled=false;
+    }else if(flag==2){
+      alert("分、秒に指定できるのは０以上５９以下の数字のみです");
+      document.getElementById("start").disabled=false;
     }else{
+        document.forms[1].elements[1].disabled=true;
       for(let i=0;i<qua;i++){
         j=Number(i);
+        document.forms[1].elements[n+cir*j].disabled=true;
+        document.forms[1].elements[p+cir*j].disabled=true;
+        document.forms[1].elements[ch+cir*j].disabled=true;
       }
       TimerStart(cur,qua);
     }
@@ -216,9 +233,9 @@ setfig=function(num) {
     document.getElementById(idname).style.color="skyblue";
     var sethour,setmin,setsec;
     if(recent_change){
-      sethour=Math.floor(document.forms[sets].elements[h+cir*i].value);
-      setmin=Math.floor(document.forms[sets].elements[m+cir*i].value);
-      setsec=Math.floor(document.forms[sets].elements[s+cir*i].value);
+      sethour=Math.floor(document.forms[1].elements[h+cir*i].value);
+      setmin=Math.floor(document.forms[1].elements[m+cir*i].value);
+      setsec=Math.floor(document.forms[1].elements[s+cir*i].value);
       document.getElementById("sethour").innerHTML=sethour;
       document.getElementById("setmin").innerHTML=setmin;
       document.getElementById("setsec").innerHTML=setsec;
@@ -228,7 +245,7 @@ setfig=function(num) {
     setsec=document.getElementById("setsec").innerHTML;
     recent_change=false;
     var msg = setfig(sethour)+":"+setfig(setmin) + ":" + setfig(setsec);
-    var settitle=document.forms[sets].elements[ti+cir*i].value;
+    var settitle=document.forms[1].elements[ti+cir*i].value;
     document.getElementById("settitle").innerHTML=settitle;
     document.getElementById("Timer").innerHTML = settitle+blank+msg;
     timer1=setInterval(function(){countDown(i,qua)},1000);
@@ -274,7 +291,7 @@ setfig=function(num) {
       var idname="point_"+String(cur+1);
       document.getElementById(idname).style.color="black";
       RemoveChange(cur);
-      var flag=Number(document.forms[sets].elements[so+cir*cur].value);
+      var flag=Number(document.forms[1].elements[so+cir*cur].value);
       Volume();
       if(flag==0){
         ResetSound();
@@ -343,8 +360,12 @@ setfig=function(num) {
     if (cur==0){
       var qua=document.getElementById("number").innerHTML;
       Number(qua);
+      document.forms[1].elements[1].disabled=false;
       for(let i=0;i<qua;i++){
         j=Number(i);
+        document.forms[1].elements[n+cir*j].disabled=false;
+        document.forms[1].elements[p+cir*j].disabled=false;
+        document.forms[1].elements[ch+cir*j].disabled=false;
       }
     }
     Reset_Char();
@@ -355,10 +376,10 @@ setfig=function(num) {
     
     recent_change=true;
     var cur=document.getElementById("current").innerHTML;
-    var sethour=document.forms[sets].elements[h+cir*cur].value;
-    var setmin=document.forms[sets].elements[m+cir*cur].value;
-    var setsec=document.forms[sets].elements[s+cir*cur].value;
-    var settitle=document.forms[sets].elements[ti+cir*cur].value;
+    var sethour=document.forms[1].elements[h+cir*cur].value;
+    var setmin=document.forms[1].elements[m+cir*cur].value;
+    var setsec=document.forms[1].elements[s+cir*cur].value;
+    var settitle=document.forms[1].elements[ti+cir*cur].value;
     document.getElementById("sethour").innerHTML=sethour;
     document.getElementById("setmin").innerHTML=setmin;
     document.getElementById("setsec").innerHTML=setsec;
@@ -370,9 +391,9 @@ setfig=function(num) {
   
   function Update_Char(num){
     cur=Number(document.getElementById("current").innerHTML);
-    var sethour=Number(document.forms[sets].elements[h+cir*cur].value);
-    var setmin=Number(document.forms[sets].elements[m+cir*cur].value);
-    var setsec=Number(document.forms[sets].elements[s+cir*cur].value);
+    var sethour=Number(document.forms[1].elements[h+cir*cur].value);
+    var setmin=Number(document.forms[1].elements[m+cir*cur].value);
+    var setsec=Number(document.forms[1].elements[s+cir*cur].value);
     var all=3600*sethour+60*setmin+setsec;
     document.getElementById("test").innerHTML = String(all);
     num=Number(num);
@@ -402,7 +423,7 @@ setfig=function(num) {
   function Clear_home()
   {
     if(window.confirm('このページに入力している値はすべて削除されます。よろしいですか？')){
-      location.href = "../timer/main";
+      location.href = "../main";
     }
   }  
 

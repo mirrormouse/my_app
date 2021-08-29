@@ -11,12 +11,6 @@ setfig=function(num) {
     return result;
   }
   
-  document.onkeypress = function(e) {
-    // エンターキーだったら無効にする
-    if (e.key === 'Enter') {
-      return false;
-    }
-  }
   function Repeat(){
     var blank=document.getElementById("centering").value;
     var num=60;
@@ -47,8 +41,7 @@ setfig=function(num) {
   const h=ti+1;
   const m=h+1;
   const s=m+1;
-  const so=s+1;
-  const n=so+1;
+  const n=s+2;
   const p=n+1;
   const ch=p+1;
   const cir=7;
@@ -92,6 +85,7 @@ setfig=function(num) {
   
   var all=document.getElementById("number").innerHTML;
   all=Number(all)
+  /*
   for(let i=0;i<p+cir*(all-1)+1;i++){
     document.forms[sets].elements[i].addEventListener('keydown', function (event) {
       if (event.keyCode === 13) {
@@ -102,8 +96,14 @@ setfig=function(num) {
       }
     });
   }
+  */
 
-  
+  document.onkeypress = function(e) {
+    // エンターキーだったら無効にする
+    if (e.key === 'Enter') {
+      return false;
+    }
+  }
   
   var recent_change=true;
   function Change()
@@ -113,21 +113,11 @@ setfig=function(num) {
   
   document.getElementById("volume").addEventListener('change', Volume);
   document.getElementById("volume").addEventListener('input', Volume);
-  var context;
-  var source = context.createBufferSource();
-  source.buffer = buffer;
-  source.connect(context.destination);
-  var gainNode = context.createGain();
-  // Connect the source to the gain node.
-  source.connect(gainNode);
-  // Connect the gain node to the destination.
-  gainNode.connect(context.destination);
-
+  
   function Volume(){
     var vol=Number(document.getElementById("volume").value);
-    gainNode.gain.value = vol;
-    //start_sound.volume=vol;
-    //stop_sound.volume=vol;
+    start_sound.volume=vol;
+    stop_sound.volume=vol;
   }
   
   function Mute(){
@@ -148,7 +138,7 @@ setfig=function(num) {
     start_sound.load();
     ResetSound();
     stop_sound.play();
-    //Confirm_Sound();
+    Confirm_Sound();
   }
   function Start_Sound_Test(){
     mute_sound.play();
@@ -156,7 +146,7 @@ setfig=function(num) {
     stop_sound.load();
     ResetSound();
     start_sound.play();
-    //Confirm_Sound();
+    Confirm_Sound();
   }
   function Confirm_Sound(){
     var vol=Number(document.getElementById("volume").value);
@@ -176,7 +166,7 @@ setfig=function(num) {
     document.getElementById("allreset").disabled = true;
     var cur=document.getElementById("current").innerHTML;
     var qua=document.getElementById("number").innerHTML;
-    qua=Number(qua);
+    Number(qua);
   
     var flag=0;
   
@@ -189,18 +179,20 @@ setfig=function(num) {
       var min=setfig(Math.floor(document.forms[sets].elements[m+cir*j].value));
       var sec=setfig(Math.floor(document.forms[sets].elements[s+cir*j].value));
       
-      if(hour=="00"){
-        document.forms[sets].elements[h+cir*j].value="00";
-      }
-      if(min=="00"){
-        document.forms[sets].elements[m+cir*j].value="00";
-      }
-      if(sec=="00"){
-        document.forms[sets].elements[s+cir*j].value="00";
-      }
+
       if( (hour=="00") && (min=="00") && (sec=="00") )
       {
         flag=1;
+      }else{
+        if(hour=="00"){
+            document.forms[sets].elements[h+cir*j].value="00";
+          }
+          if(min=="00"){
+            document.forms[sets].elements[m+cir*j].value="00";
+          }
+          if(sec=="00"){
+            document.forms[sets].elements[s+cir*j].value="00";
+          }
       }
       var nummin=Number(min);
       var numsec=Number(sec);
@@ -280,7 +272,6 @@ setfig=function(num) {
     
     if (num<=0)
     {      
-       
       clearInterval(timer1);
       numberReset();
       Update_Char(num);
@@ -288,12 +279,11 @@ setfig=function(num) {
       cur=Number(cur);
       chart.data.datasets[0].data = [1,0];
       chart.update();
+      var idname="point_"+String(cur+1);
+      document.getElementById(idname).style.color="black";
       RemoveChange(cur);
-      document.getElementById("start").disabled=false;
       var flag=Number(document.forms[sets].elements[so+cir*cur].value);
-      
       Volume();
-      
       if(flag==0){
         ResetSound();
         stop_sound.play();
@@ -303,8 +293,6 @@ setfig=function(num) {
       }
       
       if(qua>cur+1){
-        var idname="point_"+String(cur+1);
-        document.getElementById(idname).style.color="black";
         recent_change=true;
         var next=Number(cur)+1;
         
@@ -312,7 +300,7 @@ setfig=function(num) {
         TimerStart(next,qua);
       }else{
         document.getElementById("current").innerHTML="0";
-        
+        document.getElementById("start").disabled=false;
         document.getElementById("reset").disabled = false;
         document.getElementById("allreset").disabled = false;
         var settitle=document.getElementById("settitle").innerHTML;

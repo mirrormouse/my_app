@@ -50,7 +50,13 @@ setfig=function(num) {
   const start_sound=document.getElementById("start_sound");
   const mute_sound=document.getElementById("mute_sound");
   Volume();
-  
+
+  document.onkeypress = function(e) {
+    // エンターキーだったら無効にする
+    if (e.key === 'Enter') {
+      return false;
+    }
+  }
   function UpdateChange(present){
     document.forms[1].elements[ti+cir*present].addEventListener('change', Change);
     document.forms[1].elements[h+cir*present].addEventListener('change', Change);
