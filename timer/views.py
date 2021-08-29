@@ -87,7 +87,6 @@ def use(request):
         #'args':{'title':'Timer','hour':1,'min':0,'sec':0},
     }
     if (request.method=='POST'):
-
         print(request.POST)
         if 'clear' in request.POST:
             pass
@@ -123,7 +122,7 @@ def use(request):
         return render(request,'timer/use.html',params)
     else:
         try:
-            obj=TimerSet.objects.filter(user=request.user).first()
+            obj=TimerSet.objects.filter(user=request.user).reverse().first()
             obj_list=str(obj).split(" ",2)
             #print(obj_list)
             id=int(obj_list[0])
