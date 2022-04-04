@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 import timer.views as timer
+import AIapp.views as AIapp
 
 urlpatterns = [
     path('',timer.confirm),
     path('admin/', admin.site.urls),
     path('timer/',include('timer.urls')),
-    path('AI/',include('AI.urls')),
+    path('AIapp/',include('AIapp.urls')),
 ]
