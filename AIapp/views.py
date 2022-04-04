@@ -23,9 +23,11 @@ def bound(a,b):
     res.append([i,j])
   return res
 
-def calc(x,y):
-    partx=makedata([x])
-    party=makedata([y])
+def calc(a,b):
+    x=[a]
+    y=[b]
+    partx=makedata(x)
+    party=makedata(y)
     train=np.array(bound(partx,party))
     ans=x+y
     z=makedata(ans)
