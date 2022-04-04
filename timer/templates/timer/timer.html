@@ -1,129 +1,142 @@
 {% load static %}
 <!doctype html>
 <html lang="ja">
-    <head>
-        <meta charset="utf-8">
-        <title>マルチタイマーWEBアプリ</title>
-        <link rel="stylesheet" 
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        crossorigin="anonymous">
-        
-        <link rel="stylesheet" type="text/css"
-        href="{% static 'timer/css/new_style.css' %}"/>
-        
-    </head>
-    <body class="container">
-      <audio id="stop_sound">
-        <source src="../../static/timer/sound/Stop.mp3">
-      </audio>
-      <audio id="start_sound">
-        <source src="../../static/timer/sound/Start.mp3">
-      </audio>
-      <audio id="mute_sound">
-        <source src="../../static/timer/sound/Mute.mp3">
-      </audio>
 
-      <div style="text-align: right;float: right;">
-        <br>
-        <details>
-          <summary>グラフイメージを表示</summary>
-        <canvas id="PieChart" height="300"></canvas>
-　　　　　　　　<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
-        </details>
-      </div>
+<head>
+  <meta charset="utf-8">
+  <title>マルチタイマーWEBアプリ</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    crossorigin="anonymous">
+
+  <link rel="stylesheet" type="text/css" href="{% static 'timer/css/new_style.css' %}" />
+
+</head>
+
+<body class="container">
+  <audio id="stop_sound">
+    <source src="../../static/timer/sound/Stop.mp3">
+  </audio>
+  <audio id="start_sound">
+    <source src="../../static/timer/sound/Start.mp3">
+  </audio>
+  <audio id="mute_sound">
+    <source src="../../static/timer/sound/Mute.mp3">
+  </audio>
+
+  <div style="text-align: right;float: right;">
+    <br>
+    <details>
+      <summary>グラフイメージを表示</summary>
+      <canvas id="PieChart" height="300"></canvas>
+      　　　　　　　　
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+    </details>
+  </div>
+  <div style="display:inline-flex">
+    <p id="Timer" class="display-4 text-primary" style="font-family:monospace, sans-serif;">&nbsp;&nbsp;&nbsp;00:00:00
+    </p>
+  </div>
+  <br>
+  <div style="display:inline-flex">
+    音量
+    <input type="range" id="volume" name="volume" min="0" max="1" step="0.1" value="0">
+    <input id="mute" type="button" value="OFF" style="width:1; padding:3px; font-size:15px;" onclick="Mute()"
+      name="mute" class="btn btn-outline-secondary mt-2">
+  </div>
+  <details>
+    <summary>音声確認（※音量注意。iOSでは仕様上、音量バーから音量を変更できない場合があります。必ず端末の音量設定をご確認ください。）</summary>
+    <input id="stop_sound_test" type="button" style="width:1; padding:3px; font-size:15px;" value="終了音を鳴らす"
+      onclick="Stop_Sound_Test()" class="btn btn-outline-secondary mt-2">
+    <input id="start_sound_test" type="button" style="width:1; padding:3px; font-size:15px;" value="開始音を鳴らす"
+      onclick="Start_Sound_Test()" class="btn btn-outline-secondary mt-2">
+  </details>
+
+  <form name="title">
+    <table width="530">
       <div style="display:inline-flex">
-      <p id="Timer" class="display-4 text-primary" style="font-family:monospace, sans-serif;">&nbsp;&nbsp;&nbsp;00:00:00</p>
+        <td>&nbsp;&nbsp;&nbsp;</td>{% csrf_token %}
+        <td>{{TitleForm.title}}</td>
+        <td>{{TitleForm.hour}}</td>
+        <td>{{TitleForm.min}}</td>
+        <td>{{TitleForm.sec}}</td>
+        <td>{{TitleForm.sound}}</td>
       </div>
+    </table>
+
+  </form>
+
+  <form name="timerset" action="{% url 'timer' num %}" method="post">
+    <div hidden>
+      <input type="submit" formaction="{% url 'timer' num %}" class="btn btn-outline-danger mt-2">
+    </div>
+    <div id="number" hidden>{{num}}</div>
+    <div id="current" hidden>0</div>
+    <div id="sethour" hidden>0</div>
+    <div id="setmin" hidden>0</div>
+    <div id="setsec" hidden>0</div>
+    <div id="settitle" hidden></div>
+    <div id="test" hidden></div>
+    &nbsp;&nbsp;&nbsp;
+    <input type="submit" formaction="{% url 'timer' plus %}" name="plus_0" value="＋"
+      class="btn btn-outline-primary mt-2">
+    {% for form in TimerForm %}
+    <br>
+    <div style="display:inline-flex">
+      <h3 id="point_{{forloop.counter}}">●</h3>
+      {{form.id}}
+      {{form}}
+      <input type="submit" formaction="{% url 'timer' minus %}" name="minus_{{forloop.counter}}" value="消去"
+        class="btn btn-outline-danger mt-2">
+    </div>
+    <br>&nbsp;&nbsp;&nbsp;
+    <input type="submit" formaction="{% url 'timer' plus %}" name="plus_{{forloop.counter}}" value="＋"
+      class="btn btn-outline-primary mt-2">
+    {% if forloop.counter != num %}
+    &emsp;&emsp;&emsp;
+    <span style="margin-right:20em;"></span>
+    <input type="submit" formaction="{% url 'timer' num %}" name="change_{{forloop.counter}}" value="↑↓"
+      class="btn btn-outline-success mt-2">
+    {% endif %}
+    {% endfor %}
+    {{ TimerForm.management_form }}
+    {% csrf_token %}
+    <br>
+
+    <input id="start" type="button" value="スタート" onclick="Start()" class="btn btn-primary mt-2">
+    <input id="stop" type="button" value="ストップ" onclick="Stop()" class="btn btn-primary mt-2">
+    <input id="reset" type="button" value="リセット" onclick="Reset()" class="btn btn-secondary mt-2">
+    <input id="allreset" type="button" value="オールリセット" onclick="allReset()" class="btn btn-secondary mt-2">
+    <input id="clear" type="button" value="オールクリア" onclick="Clear_home()" name="clear" class="btn btn-danger mt-2">
+  </form>
+  <h6>
+    <br><br>
+    <details>
+      <summary>使い方ヘルプ</summary>
       <br>
-      <div style="display:inline-flex">
-        音量
-      <input type="range" id="volume" name="volume" min="0" max="1" step="0.1" value="0">
-      <input id="mute" type="button" value="OFF" style="width:1; padding:3px; font-size:15px;" onclick="Mute()"  name="mute" class="btn btn-outline-secondary mt-2">
-      </div>
-      <details>
-        <summary>音声確認（※音量注意。iOSでは仕様上、音量バーから音量を変更できない場合があります。必ず端末の音量設定をご確認ください。）</summary>
-          <input id="stop_sound_test" type="button" style="width:1; padding:3px; font-size:15px;" value="終了音を鳴らす" onclick="Stop_Sound_Test()"  class="btn btn-outline-secondary mt-2">
-          <input id="start_sound_test" type="button" style="width:1; padding:3px; font-size:15px;" value="開始音を鳴らす" onclick="Start_Sound_Test()"  class="btn btn-outline-secondary mt-2">
-      </details>
-      
-      <form name="title">
-        <table width="530">
-          <div style="display:inline-flex">
-            <td>&nbsp;&nbsp;&nbsp;</td>{% csrf_token %}
-              <td>{{TitleForm.title}}</td>
-              <td>{{TitleForm.hour}}</td>
-              <td>{{TitleForm.min}}</td>
-              <td>{{TitleForm.sec}}</td>
-              <td>{{TitleForm.sound}}</td>
-          </div>
-        </table>
-
-      </form>
-
-      <form name="timerset" action="{% url 'timer' num %}" method="post"> 
-        <div hidden>
-          <input type="submit" formaction="{% url 'timer' num %}" class="btn btn-outline-danger mt-2"> 
-        </div>
-        <div id="number" hidden>{{num}}</div>
-        <div id="current" hidden>0</div>
-        <div id="sethour" hidden>0</div><div id="setmin" hidden>0</div><div id="setsec" hidden>0</div><div id="settitle" hidden></div>
-        <div id="test" hidden></div>
-        &nbsp;&nbsp;&nbsp;
-        <input type="submit" formaction="{% url 'timer' plus %}" name="plus_0" value="＋" class="btn btn-outline-primary mt-2">
-        {% for form in TimerForm %}
-          <br>
-          <div style="display:inline-flex">
-            <h3 id="point_{{forloop.counter}}">●</h3>
-            {{form.id}}
-            {{form}}
-            <input type="submit" formaction="{% url 'timer' minus %}" name="minus_{{forloop.counter}}" value="消去" class="btn btn-outline-danger mt-2"> 
-          </div>
-          <br>&nbsp;&nbsp;&nbsp;
-          <input type="submit" formaction="{% url 'timer' plus %}" name="plus_{{forloop.counter}}" value="＋" class="btn btn-outline-primary mt-2">
-          {% if forloop.counter != num %}
-          &emsp;&emsp;&emsp;
-          <span style="margin-right:20em;"></span>
-          <input type="submit" formaction="{% url 'timer' num %}" name="change_{{forloop.counter}}" value="↑↓" class="btn btn-outline-success mt-2">
-          {% endif %}
-        {% endfor %}
-        {{ TimerForm.management_form }}
-        {% csrf_token %}
-          <br>
-          
-        <input id="start" type="button" value="スタート" onclick="Start()"  class="btn btn-primary mt-2">
-        <input id="stop" type="button" value="ストップ" onclick="Stop()"  class="btn btn-primary mt-2">
-        <input id="reset" type="button" value="リセット" onclick="Reset()"  class="btn btn-secondary mt-2">
-        <input id="allreset" type="button" value="オールリセット" onclick="allReset()"  class="btn btn-secondary mt-2">
-        <input id="clear" type="button" value="オールクリア" onclick="Clear_home()"  name="clear" class="btn btn-danger mt-2">
-      </form>
-      <h6>
-        <br><br>
-        <details>
-          <summary>使い方ヘルプ</summary>
-          <br>
-          ＋ボタンでタイマーをいくつでも増やすことができます。スタートボタンを押すと一番上のタイマーが起動します。<br>
-          そのタイマーが00:00:00になると、直後に次のタイマーが自動的に起動します。<br>
-          アラームでは、そのタイマーが00:00:00になった時に鳴らす音を指定できます。<br>
-          リセット：&emsp;&emsp;&emsp;現在アクティブなタイマーをセットされている時刻に戻します。再びスタートすると現在アクティブなタイマーが動きます。<br>
-          オールリセット：全てのタイマーをセットされている時刻に戻します。再びスタートすると最初のタイマーが動きます。<br>
-          本アプリの利用に伴って生じた一切の損害については責任を負いかねます。ご了承ください。<br>
-          本アプリの利用、登録はすべて無料です。<br>
-        </details>
-        <br>
-        <input id="login" type="button" value="ログイン・アカウント作成" onclick="Login_home()"  name="login" class="btn btn-outline-success mt-2">
+      ＋ボタンでタイマーをいくつでも増やすことができます。スタートボタンを押すと一番上のタイマーが起動します。<br>
+      そのタイマーが00:00:00になると、直後に次のタイマーが自動的に起動します。<br>
+      アラームでは、そのタイマーが00:00:00になった時に鳴らす音を指定できます。<br>
+      リセット：&emsp;&emsp;&emsp;現在アクティブなタイマーをセットされている時刻に戻します。再びスタートすると現在アクティブなタイマーが動きます。<br>
+      オールリセット：全てのタイマーをセットされている時刻に戻します。再びスタートすると最初のタイマーが動きます。<br>
+      本アプリの利用に伴って生じた一切の損害については責任を負いかねます。ご了承ください。<br>
+      本アプリの利用、登録はすべて無料です。<br>
+    </details>
+    <br>
+    <input id="login" type="button" value="ログイン・アカウント作成" onclick="Login_home()" name="login"
+      class="btn btn-outline-success mt-2">
 
 
-        <div hidden>
-        <br><br>
-        &emsp;&ensp;リセット：&ensp;&emsp;現在アクティブなタイマーをセットされている時刻に戻します。再びスタートすると現在アクティブなタイマーが動きます。<br>
-        オールリセット：全てのタイマーをセットされている時刻に戻します。再びスタートすると最初のタイマーが動きます。<br>
-      </div>
-      </h6>
+    <div hidden>
+      <br><br>
+      &emsp;&ensp;リセット：&ensp;&emsp;現在アクティブなタイマーをセットされている時刻に戻します。再びスタートすると現在アクティブなタイマーが動きます。<br>
+      オールリセット：全てのタイマーをセットされている時刻に戻します。再びスタートすると最初のタイマーが動きます。<br>
+    </div>
+  </h6>
 
-        <script src='../../static/timer/js/timer.js'>
-        </script>
+  <script src='../../static/timer/js/timer.js'>
+  </script>
 
 
-    </body>
-    
+</body>
+
 </html>
