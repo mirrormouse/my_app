@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from tensorflow.keras.models import load_model
 import numpy as np 
+from .forms import AdderForm
 # Create your views here.
 model = load_model("AIapp/model/my_model.h5")
 
@@ -42,9 +43,16 @@ def calc(a,b):
             flag=True
         if flag:
             res+=str(result[5-i])
-    print(res)
+    return res
 
 
 def index(request):
+    params={
+        'title':'AI加算器',
+        'form':AdderForm(),
+        'ans':'',
+    }
+    if (request.method=='POST'):
+        params['ans']=calc(request.POST['num1'],request.POST['num2'])
     msg=calc(3,3)
-    return HttpResponse(msg)
+    return render(request,'hello/adder.html',params)
