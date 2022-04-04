@@ -17,7 +17,6 @@ def makedata(l):
     res.append(data)
   return res
 
-
 def bound(a,b):
   res=[]
   for i,j in zip(a,b):
@@ -45,8 +44,10 @@ def calc(a,b):
             res+=str(result[5-i])
     return str(a)+'+'+str(b)+'='+str(res), str(a)+'+'+str(b)+'='+str(a+b)
 
-
 def index(request):
+    return HttpResponse("This is top page")
+
+def adder(request):
     params={
         'title':'足し算ができるAI',
         'form':AdderForm(),
