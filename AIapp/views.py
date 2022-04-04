@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from tensorflow.keras.models import load_model
+import numpy as np 
 # Create your views here.
 model = load_model("AIapp/model/my_model.h5")
 
