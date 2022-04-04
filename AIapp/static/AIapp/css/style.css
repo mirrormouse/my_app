@@ -1,3 +1,4 @@
+/*
 body {
     color: gray;
     font-size: 12pt;
@@ -28,19 +29,18 @@ a {
     font-size: 0.9em;
 }
 
-/* for Firefox */
 .form-control::-moz-placeholder {
     color: #9f9f9f;
     font-size: 0.9em;
 }
 
-/* for Firefox 18以前 */
+
 .form-control:-moz-placeholder {
     color: #9f9f9f;
     font-size: 0.9em;
 }
 
-/* for Windows IE */
+
 .form-control:-ms-input-placeholder {
     color: #9f9f9f;
     font-size: 0.9em;
@@ -50,3 +50,5 @@ a {
     color: #9f9f9f;
     font-size: 0.9em;
 }
+
+*/
