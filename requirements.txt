@@ -45,3 +45,4 @@ urllib3==1.26.9
 Werkzeug==2.1.1
 whitenoise==6.0.0
 wrapt==1.14.0
+gunicorn
