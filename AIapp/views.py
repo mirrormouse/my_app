@@ -55,4 +55,4 @@ def index(request):
     if (request.method=='POST'):
         params['ans']=calc(request.POST['num1'],request.POST['num2'])
     msg=calc(3,3)
-    return render(request,'hello/adder.html',params)
+    return render(request,'AIapp/adder.html',params)
