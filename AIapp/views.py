@@ -43,16 +43,17 @@ def calc(a,b):
             flag=True
         if flag:
             res+=str(result[5-i])
-    return res
+    return str(a)+'+'+str(b)+'='+str(res), str(a)+'+'+str(b)+'='+str(a+b)
 
 
 def index(request):
     params={
-        'title':'AI加算器',
+        'title':'足し算ができるAI',
         'form':AdderForm(),
         'ans':'',
+        'trueans':'',
     }
     if (request.method=='POST'):
-        params['ans']=calc(request.POST['num1'],request.POST['num2'])
-    msg=calc(3,3)
+        params['form']=AdderForm(request.POST)
+        params['ans'],params['trueans']=calc(int(request.POST['num1']),int(request.POST['num2']))
     return render(request,'AIapp/adder.html',params)

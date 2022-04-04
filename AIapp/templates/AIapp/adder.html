@@ -7,15 +7,27 @@
     <title>{{title}}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         crossorigin="anonymous">
-    <!--
-        <link rel="stylesheet" type="text/css"
-        href="{% static 'hello/css/style.css' %}"/>
-        -->
+
+    <link rel="stylesheet" type="text/css" href="{% static 'AIapp/css/style.css' %}" />
+
 
 </head>
 
 <body class="container">
     <h1 class="display-4 text-primary">{{title}}</h1>
+    <details>
+        <summary>このサイトは？</summary>
+        <p>
+            <font color="#7F7F7F">
+                このサイトは、RNN（再帰型ニューラルネットワーク）によって１から足し算を学んだAIに、実際に計算問題を解かせられるサイトです。<br>
+                数字1と数字2の値を足して結果を表示します。入力できる値は0から9999までの整数です。<br>
+                このAIについて、実装や学習方法などの詳細はこのページの管理人が執筆した<a
+                    href="https://qiita.com/kagamidokei/items/cbc49f10806868cfeaf6">こちらの記事</a>をご覧ください。
+                AIの正答率は8割程度（のはず）です（記事参照）。「足し算が苦手なポンコツ人工知能」として温かい目で見守りください。
+            </font>
+        </p>
+    </details>
+    <br>
     <form action="{% url 'index' %}" method="post">
         {% csrf_token %}
         <table>
@@ -26,9 +38,11 @@
                     <input type="submit" value="click">
                 </td>
             </tr>
-
         </table>
     </form>
+    <br>
+    <h3>AI君の回答：{{ans}}</h3>
+    <h3>実際の答え：{{trueans}}</h3>
 </body>
 
 </html>
