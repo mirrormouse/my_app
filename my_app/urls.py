@@ -21,4 +21,5 @@ urlpatterns = [
     path('',timer.confirm),
     path('admin/', admin.site.urls),
     path('timer/',include('timer.urls')),
+    path('AI/',include('AI.urls')),
 ]
