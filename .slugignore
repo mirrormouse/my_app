@@ -1,1 +1,5 @@
 .heroku
+*.psd
+*.pdf
+/test
+/spec
