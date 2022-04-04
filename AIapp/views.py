@@ -17,6 +17,12 @@ def makedata(l):
   return res
 
 
+def bound(a,b):
+  res=[]
+  for i,j in zip(a,b):
+    res.append([i,j])
+  return res
+
 def calc(x,y):
     partx=makedata([x])
     party=makedata([y])
