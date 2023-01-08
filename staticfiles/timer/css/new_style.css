@@ -1,0 +1,42 @@
+body{
+    color:gray;
+    font-size:12pt;
+}
+h1{
+    color:red;
+    opacity:0.2;
+    font-size:10pt;
+    margin-top:-20px;
+    margin-bottom:0px;
+    text-align:right;
+}
+p{
+    font-size:10pt;
+    margin:10px;
+}
+a{
+    color:blue;
+    text-decoration: none;
+}
+.form-control::-webkit-input-placeholder{
+    color: #BFBFBF;
+}
+ 
+/* for Firefox */
+.form-control::-moz-placeholder{
+    color: #BFBFBF;
+}
+ 
+/* for Firefox 18以前 */
+.form-control:-moz-placeholder{
+    color: #BFBFBF;
+}
+ 
+/* for Windows IE */
+.form-control:-ms-input-placeholder{
+    color: #BFBFBF;
+}
+
+.form-control::placeholder {
+    color: #BFBFBF;
+ }
