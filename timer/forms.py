@@ -103,6 +103,7 @@ class TimerSelectForm(forms.Form):
     def __init__(self,user,*args,**kwargs):
         super(TimerSelectForm,self).__init__(*args,**kwargs)
         self.fields['groups']=forms.ChoiceField(
+            label='',
             choices=[(item.id,item.title) \
                 for item in TimerSet.objects.filter(user=user)],\
                 widget=forms.Select(attrs={'class':'form-control'}),
